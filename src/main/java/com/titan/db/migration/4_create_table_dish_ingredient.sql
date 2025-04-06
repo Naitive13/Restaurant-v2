@@ -1,4 +1,5 @@
 CREATE TABLE IF NOT EXISTS dish_ingredient (
+    id bigint PRIMARY KEY,
     dish_id bigint REFERENCES dish(dish_id),
     ingredient_id bigint REFERENCES ingredient(ingredient_id),
     quantity NUMERIC(10,2) not null,

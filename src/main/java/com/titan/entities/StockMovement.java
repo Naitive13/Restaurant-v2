@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 public class StockMovement {
+    private long id;
     private long ingredientId;
     private double quantity;
     private UnitType unit;
