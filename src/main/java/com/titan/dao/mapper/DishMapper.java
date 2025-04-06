@@ -1,7 +1,6 @@
 package com.titan.dao.mapper;
 
 import com.titan.dao.DishIngredientDAO;
-import com.titan.db.Datasource;
 import com.titan.entities.Dish;
 import lombok.SneakyThrows;
 
@@ -12,7 +11,7 @@ public class DishMapper implements Function<ResultSet, Dish> {
     @Override
     @SneakyThrows
     public Dish apply(ResultSet rs) {
-        DishIngredientDAO dishIngredientDAO = new DishIngredientDAO(new Datasource());
+        DishIngredientDAO dishIngredientDAO = new DishIngredientDAO();
         Dish dish = new Dish();
         long dishId = rs.getLong("dish_id");
 

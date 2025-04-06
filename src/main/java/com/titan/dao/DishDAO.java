@@ -11,11 +11,16 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 public class DishDAO implements CrudDAO<Dish> {
   private final Datasource datasource;
   private final DishMapper dishMapper;
   private final DishIngredientDAO dishIngredientDAO;
+
+  public DishDAO() {
+    this.datasource = new Datasource();
+    this.dishIngredientDAO = new DishIngredientDAO();
+    this.dishMapper = new DishMapper();
+  }
 
   @Override
   public List<Dish> getAll(int page, int pageSize) {
