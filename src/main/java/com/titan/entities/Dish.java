@@ -11,5 +11,5 @@ public class Dish {
     private long dishId;
     private String dishName;
     private long dishPrice;
-    private List<Ingredient> ingredientList;
+    private List<DishIngredient> ingredientList;
 }
