@@ -71,7 +71,6 @@ public class DishIngredientDAO implements CrudDAO<DishIngredient> {
             "VALUES (?,?,?,?) " +
             "ON CONFLICT (dish_id, ingredient_id) DO UPDATE " +
             "SET quantity=excluded.quantity "+
-            "ON CONFLICT (id) DO NOTHING " +
             "RETURNING dish_id, ingredient_id, quantity";
 
     try (Connection connection = this.datasource.getConnection();
