@@ -32,11 +32,19 @@ public class DishTest {
   @Order(3)
   public void get_ingredients_cost(){
     Dish dish = subject.getById(1L);
-    assertEquals(5500, dish.getIngredientsCost());
+    assertEquals(5_500, dish.getIngredientsCost());
   }
 
   @Test
   @Order(4)
+  public void get_gross_margin(){
+    Dish dish = subject.getById(1L);
+    assertEquals(15_000 - 5_500, dish.getGrossMargin());
+  }
+
+
+  @Test
+  @Order(5)
   public void add_new_dish(){
     Dish expected = subject.getById(1L);
 
