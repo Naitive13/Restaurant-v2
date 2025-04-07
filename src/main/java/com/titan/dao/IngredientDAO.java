@@ -48,7 +48,7 @@ public class IngredientDAO implements CrudDAO<Ingredient> {
   public Ingredient getById(long id) {
     String query =
         "SELECT ingredient_id, ingredient_name, unit, last_modified "
-            + "FROM dish_ingredient WHERE ingredient_id = ?";
+            + "FROM ingredient WHERE ingredient_id = ?";
 
     try (Connection connection = this.datasource.getConnection();
         PreparedStatement st = connection.prepareStatement(query)) {
