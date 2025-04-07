@@ -36,4 +36,14 @@ public class IngredientTest {
 
         assertEquals(expected,actual);
     }
+
+    @Test
+    @Order(4)
+    public void get_available_quantity(){
+        Ingredient egg = subject.getById(3);
+        Ingredient bread = subject.getById(4);
+
+        assertEquals(80, egg.getAvailableQuantity(),"Available quantity for egg");
+        assertEquals(30, bread.getAvailableQuantity(),"Available quantity for bread");
+    }
 }
