@@ -1,5 +1,7 @@
 package com.titan.entities;
 
+import static com.titan.entities.enums.StockType.IN;
+import static com.titan.entities.enums.StockType.OUT;
 import static java.util.Comparator.naturalOrder;
 
 import com.titan.entities.enums.UnitType;
@@ -24,5 +26,28 @@ public class Ingredient {
         .max(Comparator.comparing(Price::getDate, naturalOrder()))
         .get()
         .getValue();
+  }
+
+  public Double getAvailableQuantity() {
+    return this.getAvailableQuantityAt(LocalDateTime.now());
+  }
+
+  public Double getAvailableQuantityAt(LocalDateTime datetime) {
+    List<StockMovement> stockMovementsBeforeToday =
+        stockMovements.stream()
+            .filter(
+                stockMovement ->
+                    stockMovement.getLastModified().isBefore(datetime)
+                        || stockMovement.getLastModified().equals(datetime))
+            .toList();
+    double quantity = 0;
+    for (StockMovement stockMovement : stockMovementsBeforeToday) {
+      if (IN.equals(stockMovement.getType())) {
+        quantity += stockMovement.getQuantity();
+      } else if (OUT.equals(stockMovement.getType())) {
+        quantity -= stockMovement.getQuantity();
+      }
+    }
+    return quantity;
   }
 }
