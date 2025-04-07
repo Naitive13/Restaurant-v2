@@ -26,7 +26,7 @@ public class IngredientDAO implements CrudDAO<Ingredient> {
     List<Ingredient> ingredients = new ArrayList<>();
     String query =
         "SELECT ingredient_id, ingredient_name, unit, last_modified "
-            + "FROM dish_ingredient LIMIT ? OFFSET ?";
+            + "FROM ingredient LIMIT ? OFFSET ?";
 
     try (Connection connection = this.datasource.getConnection();
         PreparedStatement st = connection.prepareStatement(query)) {
