@@ -13,7 +13,6 @@ public class StockMovement {
     private long id;
     private long ingredientId;
     private double quantity;
-    private UnitType unit;
     private LocalDateTime lastModified;
     private StockType type;
 }
