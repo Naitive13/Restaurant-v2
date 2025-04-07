@@ -18,4 +18,8 @@ public class Dish {
         .map(DishIngredient::getIngredientCost)
         .reduce(0d, Double::sum);
   }
+
+  public Double getGrossMargin (){
+    return this.getDishPrice() - this.getIngredientsCost();
+  }
 }
