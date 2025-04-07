@@ -28,6 +28,14 @@ public class Ingredient {
         .getValue();
   }
 
+  public double getActualPriceAt(LocalDateTime dateTime) {
+    return this.getIngredientPrices().stream()
+        .filter(price -> price.getDate().equals(dateTime))
+        .findFirst()
+        .orElseThrow()
+        .getValue();
+  }
+
   public Double getAvailableQuantity() {
     return this.getAvailableQuantityAt(LocalDateTime.now());
   }
