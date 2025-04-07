@@ -84,27 +84,29 @@ public class IngredientDAO implements CrudDAO<Ingredient> {
       ingredientToAdd.forEach(
           ingredient -> {
             try {
-              st.setLong(1,ingredient.getIngredientId());
-              st.setString(2,ingredient.getIngredientName());
-              st.setString(3,ingredient.getUnit().toString());
+              st.setLong(1, ingredient.getIngredientId());
+              st.setString(2, ingredient.getIngredientName());
+              st.setString(3, ingredient.getUnit().toString());
               st.setTimestamp(4, Timestamp.valueOf(ingredient.getLastModified()));
-              st.addBatch();
+
+              try (ResultSet rs = st.executeQuery()) {
+                priceDAO.saveAll(ingredient.getIngredientPrices());
+                stockDAO.saveAll(ingredient.getStockMovements());
+
+                if (rs.next()) {
+                  ingredients.add(ingredientMapper.apply(rs));
+                }
+              }
+
             } catch (SQLException e) {
               throw new RuntimeException(e);
             }
-            priceDAO.saveAll(ingredient.getIngredientPrices());
-            stockDAO.saveAll(ingredient.getStockMovements());
           });
 
-      try (ResultSet rs = st.executeQuery()) {
-        while (rs.next()) {
-          ingredients.add(ingredientMapper.apply(rs));
-        }
-      }
+
       return ingredients;
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
   }
-
 }
