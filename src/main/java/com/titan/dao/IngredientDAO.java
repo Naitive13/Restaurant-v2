@@ -73,7 +73,7 @@ public class IngredientDAO implements CrudDAO<Ingredient> {
         "INSERT INTO ingredient "
             + "(ingredient_id, ingredient_name, unit, last_modified) "
             + "VALUES (?,?,?::unit_type,?) "
-            + "ON CONFLICT (id) DO UPDATE SET "
+            + "ON CONFLICT (ingredient_id) DO UPDATE SET "
             + "ingredient_name=excluded.ingredient_name, "
             + "last_modified=excluded.last_modified "
             + "RETURNING ingredient_id, ingredient_name, unit, last_modified";

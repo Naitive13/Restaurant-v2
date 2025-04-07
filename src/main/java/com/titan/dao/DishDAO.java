@@ -72,8 +72,8 @@ public class DishDAO implements CrudDAO<Dish> {
         "INSERT INTO dish "
             + "(dish_id, dish_name, dish_price) "
             + "VALUES (?,?,?) "
-            + "ON CONFLICT (dish_id) DO UPDATE SET"
-            + "dish_name = excluded.dish_name, dish_price=execluded.dish_price "
+            + "ON CONFLICT (dish_id) DO UPDATE SET "
+            + "dish_name = excluded.dish_name, dish_price=excluded.dish_price "
             + "RETURNING dish_id, dish_name, dish_price";
 
     try (Connection connection = this.datasource.getConnection();

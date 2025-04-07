@@ -70,7 +70,7 @@ public class PriceDAO implements CrudDAO<Price> {
         "INSERT INTO ingredient_price"
             + "(price_id, ingredient_id, unit_price, price_date) "
             + "VALUES (?,?,?,?) "
-            + "ON CONFLICT DO NOTHING"
+            + "ON CONFLICT DO NOTHING "
             + "RETURNING price_id, ingredient_id, unit_price, price_date";
 
     try (Connection connection = this.datasource.getConnection();
