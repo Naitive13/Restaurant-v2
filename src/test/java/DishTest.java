@@ -35,4 +35,15 @@ public class DishTest {
     assertEquals(5500, dish.getIngredientsCost());
   }
 
+  @Test
+  @Order(4)
+  public void add_new_dish(){
+    Dish expected = subject.getById(1L);
+
+    List<Dish> dishes = subject.saveAll(List.of(expected));
+    Dish actual = dishes.getFirst();
+
+    assertEquals(expected,actual);
+  }
+
 }
