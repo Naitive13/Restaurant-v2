@@ -3,7 +3,6 @@ package com.titan.dao;
 import com.titan.dao.mapper.StockMovementMapper;
 import com.titan.db.Datasource;
 import com.titan.entities.StockMovement;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,9 +52,8 @@ public class StockDAO implements CrudDAO<StockMovement> {
       try (ResultSet rs = st.executeQuery()) {
         if (rs.next()) {
           return stockMovementMapper.apply(rs);
-        }
-        else{
-            throw new RuntimeException("Stock not found");
+        } else {
+          throw new RuntimeException("Stock not found");
         }
       }
     } catch (Exception e) {
@@ -66,37 +64,41 @@ public class StockDAO implements CrudDAO<StockMovement> {
   @Override
   public List<StockMovement> saveAll(List<StockMovement> stockMovementsToAdd) {
     List<StockMovement> stocks = new ArrayList<>();
-    String query =
-        "INSERT INTO stock "+
-                "(stock_id, ingredient_id, quantity, movement, last_modified)"+
-                "VALUES (?,?,?,?::movement_type,?) "
-            + "ON CONFLICT DO NOTHING " + "RETURNING stock_id, ingredient_id, quantity, movement, last_modified";
+    if (!stockMovementsToAdd.isEmpty()) {
+      String query =
+          "INSERT INTO stock "
+              + "(stock_id, ingredient_id, quantity, movement, last_modified)"
+              + "VALUES (?,?,?,?::movement_type,?) "
+              + "ON CONFLICT DO NOTHING "
+              + "RETURNING stock_id, ingredient_id, quantity, movement, last_modified";
 
-    try (Connection connection = this.datasource.getConnection();
-        PreparedStatement st = connection.prepareStatement(query)) {
+      try (Connection connection = this.datasource.getConnection();
+          PreparedStatement st = connection.prepareStatement(query)) {
 
-        stockMovementsToAdd.forEach(stockMovement -> {
-            try {
-                st.setLong(1,stockMovement.getId());
-                st.setLong(2,stockMovement.getIngredientId());
+        stockMovementsToAdd.forEach(
+            stockMovement -> {
+              try {
+                st.setLong(1, stockMovement.getId());
+                st.setLong(2, stockMovement.getIngredientId());
                 st.setDouble(3, stockMovement.getQuantity());
-                st.setString(4,stockMovement.getType().toString());
+                st.setString(4, stockMovement.getType().toString());
                 st.setTimestamp(5, Timestamp.valueOf(stockMovement.getLastModified()));
                 st.addBatch();
-            } catch (SQLException e) {
+              } catch (SQLException e) {
                 throw new RuntimeException(e);
-            }
-        });
+              }
+            });
 
-      try (ResultSet rs = st.executeQuery()) {
-        while (rs.next()) {
-          stocks.add(stockMovementMapper.apply(rs));
+        try (ResultSet rs = st.executeQuery()) {
+          while (rs.next()) {
+            stocks.add(stockMovementMapper.apply(rs));
+          }
         }
+      } catch (Exception e) {
+        throw new RuntimeException(e);
       }
-      return stocks;
-    } catch (Exception e) {
-      throw new RuntimeException(e);
     }
+    return stocks;
   }
 
   public List<StockMovement> getStockMovementsFor(long ingredientId) {
