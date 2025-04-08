@@ -42,9 +42,15 @@ public class DishTest {
     assertEquals(15_000 - 5_500, dish.getGrossMargin());
   }
 
-
   @Test
   @Order(5)
+  public void get_available_quantity(){
+    Dish dish = subject.getById(1L);
+    assertEquals(30, dish.getAvailableQuantity());
+  }
+
+  @Test
+  @Order(6)
   public void add_new_dish(){
     Dish expected = subject.getById(1L);
 
