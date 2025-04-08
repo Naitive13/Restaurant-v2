@@ -19,7 +19,19 @@ public class Dish {
         .reduce(0d, Double::sum);
   }
 
-  public Double getGrossMargin (){
+  public Double getGrossMargin() {
     return this.getDishPrice() - this.getIngredientsCost();
+  }
+
+  public long getAvailableQuantity() {
+    return this.getIngredientList().stream()
+        .map(
+            dishIngredient -> {
+              return Math.round(
+                  dishIngredient.getIngredient().getAvailableQuantity()
+                      / dishIngredient.getQuantity());
+            })
+        .min(Long::compare)
+        .orElseThrow();
   }
 }
