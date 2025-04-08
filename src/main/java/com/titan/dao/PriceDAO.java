@@ -83,17 +83,16 @@ public class PriceDAO implements CrudDAO<Price> {
               st.setLong(2, price.getIngredientId());
               st.setDouble(3, price.getValue());
               st.setTimestamp(4, Timestamp.valueOf(price.getDate()));
-              st.addBatch();
+
+              try (ResultSet rs = st.executeQuery()) {
+                if (rs.next()) {
+                  prices.add(priceMapper.apply(rs));
+                }
+              }
             } catch (SQLException e) {
               throw new RuntimeException(e);
             }
           });
-
-      try (ResultSet rs = st.executeQuery()) {
-        while (rs.next()) {
-          prices.add(priceMapper.apply(rs));
-        }
-      }
 
       return prices;
     } catch (Exception e) {

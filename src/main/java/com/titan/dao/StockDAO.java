@@ -83,17 +83,17 @@ public class StockDAO implements CrudDAO<StockMovement> {
                 st.setDouble(3, stockMovement.getQuantity());
                 st.setString(4, stockMovement.getType().toString());
                 st.setTimestamp(5, Timestamp.valueOf(stockMovement.getLastModified()));
-                st.addBatch();
+
+                try (ResultSet rs = st.executeQuery()) {
+                  if (rs.next()) {
+                    stocks.add(stockMovementMapper.apply(rs));
+                  }
+                }
               } catch (SQLException e) {
                 throw new RuntimeException(e);
               }
             });
 
-        try (ResultSet rs = st.executeQuery()) {
-          while (rs.next()) {
-            stocks.add(stockMovementMapper.apply(rs));
-          }
-        }
       } catch (Exception e) {
         throw new RuntimeException(e);
       }

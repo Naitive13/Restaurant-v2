@@ -53,8 +53,8 @@ public class DishIngredientDAO implements CrudDAO<DishIngredient> {
 
       try (ResultSet rs = st.executeQuery()) {
         if (rs.next()) {
-         return dishIngredientMapper.apply(rs);
-        }else {
+          return dishIngredientMapper.apply(rs);
+        } else {
           throw new RuntimeException("DishIngredient not found");
         }
       }
@@ -66,34 +66,36 @@ public class DishIngredientDAO implements CrudDAO<DishIngredient> {
   @Override
   public List<DishIngredient> saveAll(List<DishIngredient> ingredientToAdd) {
     List<DishIngredient> dishIngredients = new ArrayList<>();
-    String query = "INSERT INTO dish_ingredient "+
-            "(id, dish_id, ingredient_id,quantity) " +
-            "VALUES (?,?,?,?) " +
-            "ON CONFLICT (dish_id, ingredient_id) DO UPDATE " +
-            "SET quantity=excluded.quantity "+
-            "RETURNING dish_id, ingredient_id, quantity";
+    String query =
+        "INSERT INTO dish_ingredient "
+            + "(id, dish_id, ingredient_id,quantity) "
+            + "VALUES (?,?,?,?) "
+            + "ON CONFLICT (dish_id, ingredient_id) DO UPDATE "
+            + "SET quantity=excluded.quantity "
+            + "RETURNING dish_id, ingredient_id, quantity";
 
     try (Connection connection = this.datasource.getConnection();
         PreparedStatement st = connection.prepareStatement(query)) {
 
-      ingredientToAdd.forEach(dishIngredient -> {
-        try{
-          st.setLong(1,dishIngredient.hashCode());
-          st.setLong(2,dishIngredient.getDishId());
-          st.setLong(3,dishIngredient.getIngredient().getIngredientId());
-          st.setDouble(4,dishIngredient.getQuantity());
-          st.addBatch();
-        }catch (SQLException e){
-          throw new RuntimeException(e);
-        }
-        ingredientDAO.saveAll(List.of(dishIngredient.getIngredient()));
-      });
+      ingredientToAdd.forEach(
+          dishIngredient -> {
+            try {
+              st.setLong(1, dishIngredient.hashCode());
+              st.setLong(2, dishIngredient.getDishId());
+              st.setLong(3, dishIngredient.getIngredient().getIngredientId());
+              st.setDouble(4, dishIngredient.getQuantity());
 
-      try (ResultSet rs = st.executeQuery()) {
-        while (rs.next()) {
-          dishIngredients.add(dishIngredientMapper.apply(rs));
-        }
-      }
+              try (ResultSet rs = st.executeQuery()) {
+                ingredientDAO.saveAll(List.of(dishIngredient.getIngredient()));
+                if (rs.next()) {
+                  dishIngredients.add(dishIngredientMapper.apply(rs));
+                }
+              }
+            } catch (SQLException e) {
+              throw new RuntimeException(e);
+            }
+          });
+
       return dishIngredients;
     } catch (Exception e) {
       throw new RuntimeException(e);

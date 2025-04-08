@@ -9,7 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
 
 public class DishDAO implements CrudDAO<Dish> {
   private final Datasource datasource;
@@ -85,18 +84,18 @@ public class DishDAO implements CrudDAO<Dish> {
               st.setLong(1, dish.getDishId());
               st.setString(2, dish.getDishName());
               st.setDouble(3, dish.getDishPrice());
-              st.addBatch();
+
+              try (ResultSet rs = st.executeQuery()) {
+                dishIngredientDAO.saveAll(dish.getIngredientList());
+                if (rs.next()) {
+                  dishes.add(dishMapper.apply(rs));
+                }
+              }
             } catch (SQLException e) {
               throw new RuntimeException(e);
             }
-            dishIngredientDAO.saveAll(dish.getIngredientList());
           });
 
-      try (ResultSet rs = st.executeQuery()) {
-        while (rs.next()) {
-          dishes.add(dishMapper.apply(rs));
-        }
-      }
       return dishes;
     } catch (Exception e) {
       throw new RuntimeException(e);
