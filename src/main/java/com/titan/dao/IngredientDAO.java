@@ -30,7 +30,7 @@ public class IngredientDAO implements CrudDAO<Ingredient> {
 
     try (Connection connection = this.datasource.getConnection();
         PreparedStatement st = connection.prepareStatement(query)) {
-      st.setInt(1, page);
+      st.setInt(1, pageSize);
       st.setInt(2, (page - 1) * pageSize);
 
       try (ResultSet rs = st.executeQuery()) {

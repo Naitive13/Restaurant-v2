@@ -25,7 +25,7 @@ public class StockDAO implements CrudDAO<StockMovement> {
 
     try (Connection connection = this.datasource.getConnection();
         PreparedStatement st = connection.prepareStatement(query)) {
-      st.setInt(1, page);
+      st.setInt(1, pageSize);
       st.setInt(2, (page - 1) * pageSize);
 
       try (ResultSet rs = st.executeQuery()) {
@@ -69,7 +69,7 @@ public class StockDAO implements CrudDAO<StockMovement> {
           "INSERT INTO stock "
               + "(stock_id, ingredient_id, quantity, movement, last_modified)"
               + "VALUES (?,?,?,?::movement_type,?) "
-              + "ON CONFLICT DO NOTHING "
+              + "ON CONFLICT (ingredient_id, last_modified) DO NOTHING "
               + "RETURNING stock_id, ingredient_id, quantity, movement, last_modified";
 
       try (Connection connection = this.datasource.getConnection();
