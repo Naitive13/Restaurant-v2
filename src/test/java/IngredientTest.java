@@ -2,8 +2,10 @@ import com.titan.dao.IngredientDAO;
 import com.titan.entities.Dish;
 import com.titan.entities.Ingredient;
 import com.titan.entities.Price;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,6 +14,7 @@ import static com.titan.entities.enums.UnitType.G;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class IngredientTest {
   private final IngredientDAO subject = new IngredientDAO();
 
