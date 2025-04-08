@@ -69,7 +69,7 @@ public class StockDAO implements CrudDAO<StockMovement> {
           "INSERT INTO stock "
               + "(stock_id, ingredient_id, quantity, movement, last_modified)"
               + "VALUES (?,?,?,?::movement_type,?) "
-              + "ON CONFLICT (ingredient_id, last_modified) DO NOTHING "
+              + "ON CONFLICT DO NOTHING "
               + "RETURNING stock_id, ingredient_id, quantity, movement, last_modified";
 
       try (Connection connection = this.datasource.getConnection();
