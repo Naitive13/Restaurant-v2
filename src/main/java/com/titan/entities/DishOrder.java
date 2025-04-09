@@ -30,13 +30,14 @@ public class DishOrder {
       status.setStatus(CREATED);
       status.setDishOrderId(this.getId());
       status.setCreationDate(LocalDateTime.now());
+      status.setId((long) status.hashCode());
 
       this.setStatusList(List.of(status));
       dishOrderStatusDAO.saveAll(List.of(status));
       return status;
     } else {
       return this.getStatusList().stream()
-          .max(Comparator.comparing(DishOrderStatus::getCreationDate, naturalOrder()))
+          .min(Comparator.comparing(DishOrderStatus::getCreationDate, naturalOrder()))
           .get();
     }
   }
