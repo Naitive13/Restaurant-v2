@@ -46,10 +46,10 @@ public class OrderDAO implements CrudDAO<Order> {
 
   @Override
   public Order getById(long id) {
-    throw new UnsupportedOperationException("The order reference should be a string not a long");
+    throw new UnsupportedOperationException("You should use getByReference instead of getByReference because orders only have a reference");
   }
 
-  public Order getById(String reference) {
+  public Order getByReference(String reference) {
     String query = "SELECT order_reference, creation_date FROM \"order\" WHERE order_reference = ?";
 
     try (Connection connection = this.datasource.getConnection();
