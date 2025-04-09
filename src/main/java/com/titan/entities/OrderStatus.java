@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 public class OrderStatus {
+    private Long id;
     private String orderReference;
     private StatusType status;
     private LocalDateTime creationDate;
