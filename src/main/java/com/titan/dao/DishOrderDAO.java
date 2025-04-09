@@ -72,9 +72,9 @@ public class DishOrderDAO implements CrudDAO<DishOrder> {
         "INSERT INTO dish_order "
             + "(dish_order_id, dish_id, order_reference, quantity) "
             + "VALUES (?,?,?,?)"
-            + " ON CONFLICT DO UPDATE SET "
+            + " ON CONFLICT (dish_id, order_reference) DO UPDATE SET "
             + "quantity = excluded.quantity "
-            + "RETURNING order_reference, creation_date";
+            + "RETURNING dish_order_id, dish_id, order_reference, quantity";
 
     try (Connection connection = this.datasource.getConnection();
         PreparedStatement st = connection.prepareStatement(query)) {
