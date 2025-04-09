@@ -9,6 +9,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+
+import com.titan.dao.OrderDAO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,6 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DishOrder {
   private final DishOrderStatusDAO dishOrderStatusDAO = new DishOrderStatusDAO();
+  private final OrderDAO orderDAO = new OrderDAO();
   private Long id;
   private String orderReference;
   private Dish dish;
@@ -74,7 +77,6 @@ public class DishOrder {
           this.setStatusList(newStatusList);
           dishOrderStatusDAO.saveAll(newStatusList);
         }
-
         case IN_PROGRESS -> {
           DishOrderStatus status = new DishOrderStatus();
           status.setStatus(DONE);
@@ -85,6 +87,8 @@ public class DishOrder {
           newStatusList.add(status);
           this.setStatusList(newStatusList);
           dishOrderStatusDAO.saveAll(newStatusList);
+
+          orderDAO.getByReference(this.getOrderReference()).updateStatus();
         }
 
         case DONE -> {
@@ -97,6 +101,8 @@ public class DishOrder {
           newStatusList.add(status);
           this.setStatusList(newStatusList);
           dishOrderStatusDAO.saveAll(newStatusList);
+
+          orderDAO.getByReference(this.getOrderReference()).updateStatus();
         }
 
         default -> {
