@@ -3,6 +3,7 @@ package com.titan.entities;
 import static com.titan.entities.enums.StatusType.*;
 import static java.util.Comparator.naturalOrder;
 
+import com.titan.dao.OrderStatusDAO;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -13,6 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class Order {
+  private final OrderStatusDAO orderStatusDAO = new OrderStatusDAO();
   private String reference;
   private LocalDateTime creationDate;
   private List<DishOrder> dishOrders;
@@ -35,72 +37,85 @@ public class Order {
   }
 
   public void updateStatus() {
-    switch (this.getActualStatus().getStatus()) {
-      case CREATED -> {
-        if (this.getDishOrders().stream()
-            .map(dishOrder -> dishOrder.getActualStatus().getStatus())
-            .allMatch(CONFIRMED::equals)) {
+    if (this.getStatusList().isEmpty()) {
+      OrderStatus status = new OrderStatus();
+      status.setStatus(CREATED);
+      status.setOrderReference(this.getReference());
+      status.setCreationDate(LocalDateTime.of(2025, 1, 1, 0, 0, 0));
 
+      List<OrderStatus> newStatusList = new ArrayList<>();
+      newStatusList.add(status);
+      this.setStatusList(newStatusList);
+    } else {
+      switch (this.getActualStatus().getStatus()) {
+        case CREATED -> {
+          if (this.getDishOrders().stream()
+              .map(dishOrder -> dishOrder.getActualStatus().getStatus())
+              .allMatch(CONFIRMED::equals)) {
+
+            OrderStatus status = new OrderStatus();
+            status.setStatus(CONFIRMED);
+            status.setOrderReference(this.getReference());
+            status.setCreationDate(LocalDateTime.of(2025, 1, 2, 0, 0, 0));
+
+            List<OrderStatus> newStatusList = new ArrayList<>(this.getStatusList());
+            newStatusList.add(status);
+
+            this.setStatusList(newStatusList);
+          }
+        }
+
+        case CONFIRMED -> {
           OrderStatus status = new OrderStatus();
-          status.setStatus(CONFIRMED);
+          status.setStatus(IN_PROGRESS);
           status.setOrderReference(this.getReference());
-          status.setCreationDate(LocalDateTime.of(2025, 1, 2, 0, 0, 0));
+          status.setCreationDate(LocalDateTime.of(2025, 1, 3, 0, 0, 0));
 
           List<OrderStatus> newStatusList = new ArrayList<>(this.getStatusList());
           newStatusList.add(status);
-
           this.setStatusList(newStatusList);
+          orderStatusDAO.saveAll(newStatusList);
+
+          this.getDishOrders().forEach(DishOrder::updateStatus);
         }
-      }
 
-      case CONFIRMED -> {
-        OrderStatus status = new OrderStatus();
-        status.setStatus(IN_PROGRESS);
-        status.setOrderReference(this.getReference());
-        status.setCreationDate(LocalDateTime.of(2025, 1, 3, 0, 0, 0));
+        case IN_PROGRESS -> {
+          if (this.getDishOrders().stream()
+              .map(dishOrder -> dishOrder.getActualStatus().getStatus())
+              .allMatch(DONE::equals)) {
 
-        List<OrderStatus> newStatusList = new ArrayList<>(this.getStatusList());
-        newStatusList.add(status);
+            OrderStatus status = new OrderStatus();
+            status.setStatus(DONE);
+            status.setOrderReference(this.getReference());
+            status.setCreationDate(LocalDateTime.of(2025, 1, 4, 0, 0, 0));
 
-        this.setStatusList(newStatusList);
-      }
-
-      case IN_PROGRESS -> {
-        if (this.getDishOrders().stream()
-            .map(dishOrder -> dishOrder.getActualStatus().getStatus())
-            .allMatch(DONE::equals)) {
-
-          OrderStatus status = new OrderStatus();
-          status.setStatus(DONE);
-          status.setOrderReference(this.getReference());
-          status.setCreationDate(LocalDateTime.of(2025, 1, 4, 0, 0, 0));
-
-          List<OrderStatus> newStatusList = new ArrayList<>(this.getStatusList());
-          newStatusList.add(status);
-
-          this.setStatusList(newStatusList);
+            List<OrderStatus> newStatusList = new ArrayList<>(this.getStatusList());
+            newStatusList.add(status);
+            this.setStatusList(newStatusList);
+            orderStatusDAO.saveAll(newStatusList);
+          }
         }
-      }
 
-      case DONE -> {
-        if (this.getDishOrders().stream()
-            .map(dishOrder -> dishOrder.getActualStatus().getStatus())
-            .allMatch(DELIVERED::equals)) {
+        case DONE -> {
+          if (this.getDishOrders().stream()
+              .map(dishOrder -> dishOrder.getActualStatus().getStatus())
+              .allMatch(DELIVERED::equals)) {
 
-          OrderStatus status = new OrderStatus();
-          status.setStatus(DELIVERED);
-          status.setOrderReference(this.getReference());
-          status.setCreationDate(LocalDateTime.of(2025, 1, 5, 0, 0, 0));
+            OrderStatus status = new OrderStatus();
+            status.setStatus(DELIVERED);
+            status.setOrderReference(this.getReference());
+            status.setCreationDate(LocalDateTime.of(2025, 1, 5, 0, 0, 0));
 
-          List<OrderStatus> newStatusList = new ArrayList<>(this.getStatusList());
-          newStatusList.add(status);
-
-          this.setStatusList(newStatusList);
+            List<OrderStatus> newStatusList = new ArrayList<>(this.getStatusList());
+            newStatusList.add(status);
+            this.setStatusList(newStatusList);
+            orderStatusDAO.saveAll(newStatusList);
+          }
         }
-      }
 
-      default -> {
-        throw new RuntimeException("cannot update status because status is already DELIVERED");
+        default -> {
+          throw new RuntimeException("cannot update status because status is already DELIVERED");
+        }
       }
     }
   }

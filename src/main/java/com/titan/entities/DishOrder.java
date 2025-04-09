@@ -4,6 +4,7 @@ import static com.titan.entities.enums.StatusType.*;
 import static com.titan.entities.enums.StatusType.DONE;
 import static java.util.Comparator.naturalOrder;
 
+import com.titan.dao.DishOrderStatusDAO;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -14,6 +15,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class DishOrder {
+  private final DishOrderStatusDAO dishOrderStatusDAO = new DishOrderStatusDAO();
   private Long id;
   private String orderReference;
   private Dish dish;
@@ -35,66 +37,76 @@ public class DishOrder {
   }
 
   public void updateStatus() {
-    switch (this.getActualStatus().getStatus()) {
-      case CREATED -> {
-        if (dish.getAvailableQuantity() >= quantity) {
+    if (this.getStatusList().isEmpty()) {
+      DishOrderStatus status = new DishOrderStatus();
+      status.setStatus(CREATED);
+      status.setDishOrderId(this.getId());
+      status.setCreationDate(LocalDateTime.of(2025, 1, 1, 0, 0, 0));
+
+      List<DishOrderStatus> newStatusList = new ArrayList<>();
+      newStatusList.add(status);
+      this.setStatusList(newStatusList);
+    } else {
+      switch (this.getActualStatus().getStatus()) {
+        case CREATED -> {
+          if (dish.getAvailableQuantity() >= quantity) {
+            DishOrderStatus status = new DishOrderStatus();
+            status.setStatus(CONFIRMED);
+            status.setDishOrderId(this.getId());
+            status.setCreationDate(LocalDateTime.of(2025, 1, 2, 0, 0, 0));
+
+            List<DishOrderStatus> newStatusList = new ArrayList<>(this.getStatusList());
+            newStatusList.add(status);
+            this.setStatusList(newStatusList);
+          } else {
+            throw new RuntimeException("Not enough ingredient for " + dish.getDishName());
+          }
+        }
+
+        case CONFIRMED -> {
           DishOrderStatus status = new DishOrderStatus();
-          status.setStatus(CONFIRMED);
+          status.setStatus(IN_PROGRESS);
           status.setDishOrderId(this.getId());
-          status.setCreationDate(LocalDateTime.of(2025, 1, 2, 0, 0, 0));
+          status.setCreationDate(LocalDateTime.of(2025, 1, 3, 0, 0, 0));
 
           List<DishOrderStatus> newStatusList = new ArrayList<>(this.getStatusList());
           newStatusList.add(status);
-
           this.setStatusList(newStatusList);
-        } else {
-          throw new RuntimeException("Not enough ingredient for " + dish.getDishName());
+          dishOrderStatusDAO.saveAll(newStatusList);
         }
-      }
 
-      case CONFIRMED -> {
-        DishOrderStatus status = new DishOrderStatus();
-        status.setStatus(IN_PROGRESS);
-        status.setDishOrderId(this.getId());
-        status.setCreationDate(LocalDateTime.of(2025, 1, 3, 0, 0, 0));
+        case IN_PROGRESS -> {
+          DishOrderStatus status = new DishOrderStatus();
+          status.setStatus(DONE);
+          status.setDishOrderId(this.getId());
+          status.setCreationDate(LocalDateTime.of(2025, 1, 4, 0, 0, 0));
 
-        List<DishOrderStatus> newStatusList = new ArrayList<>(this.getStatusList());
-        newStatusList.add(status);
+          List<DishOrderStatus> newStatusList = new ArrayList<>(this.getStatusList());
+          newStatusList.add(status);
+          this.setStatusList(newStatusList);
+          dishOrderStatusDAO.saveAll(newStatusList);
+        }
 
-        this.setStatusList(newStatusList);
-      }
+        case DONE -> {
+          DishOrderStatus status = new DishOrderStatus();
+          status.setStatus(DELIVERED);
+          status.setDishOrderId(this.getId());
+          status.setCreationDate(LocalDateTime.of(2025, 1, 5, 0, 0, 0));
 
-      case IN_PROGRESS -> {
-        DishOrderStatus status = new DishOrderStatus();
-        status.setStatus(DONE);
-        status.setDishOrderId(this.getId());
-        status.setCreationDate(LocalDateTime.of(2025, 1, 4, 0, 0, 0));
+          List<DishOrderStatus> newStatusList = new ArrayList<>(this.getStatusList());
+          newStatusList.add(status);
+          this.setStatusList(newStatusList);
+          dishOrderStatusDAO.saveAll(newStatusList);
+        }
 
-        List<DishOrderStatus> newStatusList = new ArrayList<>(this.getStatusList());
-        newStatusList.add(status);
-
-        this.setStatusList(newStatusList);
-      }
-
-      case DONE -> {
-        DishOrderStatus status = new DishOrderStatus();
-        status.setStatus(DELIVERED);
-        status.setDishOrderId(this.getId());
-        status.setCreationDate(LocalDateTime.of(2025, 1, 5, 0, 0, 0));
-
-        List<DishOrderStatus> newStatusList = new ArrayList<>(this.getStatusList());
-        newStatusList.add(status);
-
-        this.setStatusList(newStatusList);
-      }
-
-      default -> {
-        throw new RuntimeException("cannot update status because status is already DELIVERED");
+        default -> {
+          throw new RuntimeException("cannot update status because status is already DELIVERED");
+        }
       }
     }
   }
 
-  public Long getTotalAmount(){
+  public Long getTotalAmount() {
     return this.getQuantity() * this.getDish().getDishPrice();
   }
 }
