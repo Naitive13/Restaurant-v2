@@ -31,6 +31,9 @@ public class DishOrder {
       status.setStatus(CREATED);
       status.setDishOrderId(this.getId());
       status.setCreationDate(LocalDateTime.now());
+
+      this.setStatusList(List.of(status));
+      dishOrderStatusDAO.saveAll(List.of(status));
       return status;
     } else {
       return this.getStatusList().stream()
@@ -50,6 +53,7 @@ public class DishOrder {
       List<DishOrderStatus> newStatusList = new ArrayList<>();
       newStatusList.add(status);
       this.setStatusList(newStatusList);
+      dishOrderStatusDAO.saveAll(newStatusList);
     } else {
       switch (this.getActualStatus().getStatus()) {
         case CREATED -> {
@@ -63,6 +67,7 @@ public class DishOrder {
             List<DishOrderStatus> newStatusList = new ArrayList<>(this.getStatusList());
             newStatusList.add(status);
             this.setStatusList(newStatusList);
+            dishOrderStatusDAO.saveAll(newStatusList);
           } else {
             throw new RuntimeException("Not enough ingredient for " + dish.getDishName());
           }
