@@ -72,7 +72,7 @@ public class OrderStatusDAO implements CrudDAO<OrderStatus> {
               + "(status_id, order_reference, order_status, creation_date) "
               + "VALUES (?,?,?::statusType,?) "
               + "ON CONFLICT (order_reference, order_status) DO NOTHING "
-              + "RETURNING status_id, dish_order_id, order_status, creation_date";
+              + "RETURNING status_id, order_reference, order_status, creation_date";
 
       try (Connection connection = this.datasource.getConnection();
           PreparedStatement st = connection.prepareStatement(query)) {
