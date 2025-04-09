@@ -28,6 +28,7 @@ public class Order {
       status.setCreationDate(LocalDateTime.of(2025, 1, 1, 0, 0, 0));
 
       this.setStatusList(List.of(status));
+      orderStatusDAO.saveAll(List.of(status));
       return status;
     } else {
       return this.getStatusList().stream()
@@ -47,6 +48,7 @@ public class Order {
       List<OrderStatus> newStatusList = new ArrayList<>();
       newStatusList.add(status);
       this.setStatusList(newStatusList);
+      orderStatusDAO.saveAll(newStatusList);
     } else {
       switch (this.getActualStatus().getStatus()) {
         case CREATED -> {
