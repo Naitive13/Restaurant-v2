@@ -69,7 +69,7 @@ public class DishOrderDAO implements CrudDAO<DishOrder> {
   public List<DishOrder> saveAll(List<DishOrder> dishOrdersToAdd) {
     List<DishOrder> dishOrders = new ArrayList<>();
     String query =
-        "INSER INTO dish_order "
+        "INSERT INTO dish_order "
             + "(dish_order_id, dish_id, order_reference, quantity) "
             + "VALUES (?,?,?,?)"
             + " ON CONFLICT DO UPDATE SET "

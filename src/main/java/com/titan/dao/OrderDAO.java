@@ -72,7 +72,7 @@ public class OrderDAO implements CrudDAO<Order> {
   public List<Order> saveAll(List<Order> ordersToAdd) {
     List<Order> orders = new ArrayList<>();
     String query =
-        "INSER INTO \"order\" "
+        "INSERT INTO \"order\" "
             + "(order_reference, creation_date) "
             + "VALUES (?,?) ON CONFLICT DO NOTHING "
             + "RETURNING order_reference, creation_date";
