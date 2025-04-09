@@ -26,6 +26,7 @@ public class Order {
       status.setStatus(CREATED);
       status.setOrderReference(this.getReference());
       status.setCreationDate(LocalDateTime.of(2025, 1, 1, 0, 0, 0));
+      status.setId((long) status.hashCode());
 
       this.setStatusList(List.of(status));
       orderStatusDAO.saveAll(List.of(status));
@@ -54,7 +55,14 @@ public class Order {
       switch (this.getActualStatus().getStatus()) {
         case CREATED -> {
           if (this.getDishOrders().stream()
-              .map(dishOrder -> dishOrder.getActualStatus().getStatus())
+              .map(
+                  dishOrder -> {
+                    if (CREATED.equals(dishOrder.getActualStatus().getStatus())){
+                      dishOrder.updateStatus();
+                    }
+
+                    return dishOrder.getActualStatus().getStatus();
+                  })
               .allMatch(CONFIRMED::equals)) {
 
             OrderStatus status = new OrderStatus();
