@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 public class DishOrderStatus {
+  private Long id;
   private Long dishOrderId;
   private StatusType status;
   private LocalDateTime creationDate;
