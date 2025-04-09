@@ -45,6 +45,7 @@ public class DishOrder {
       status.setStatus(CREATED);
       status.setDishOrderId(this.getId());
       status.setCreationDate(LocalDateTime.of(2025, 1, 1, 0, 0, 0));
+      status.setId((long) status.hashCode());
 
       List<DishOrderStatus> newStatusList = new ArrayList<>();
       newStatusList.add(status);
@@ -57,6 +58,7 @@ public class DishOrder {
             status.setStatus(CONFIRMED);
             status.setDishOrderId(this.getId());
             status.setCreationDate(LocalDateTime.of(2025, 1, 2, 0, 0, 0));
+            status.setId((long) status.hashCode());
 
             List<DishOrderStatus> newStatusList = new ArrayList<>(this.getStatusList());
             newStatusList.add(status);
@@ -71,6 +73,7 @@ public class DishOrder {
           status.setStatus(IN_PROGRESS);
           status.setDishOrderId(this.getId());
           status.setCreationDate(LocalDateTime.of(2025, 1, 3, 0, 0, 0));
+          status.setId((long) status.hashCode());
 
           List<DishOrderStatus> newStatusList = new ArrayList<>(this.getStatusList());
           newStatusList.add(status);
@@ -82,6 +85,7 @@ public class DishOrder {
           status.setStatus(DONE);
           status.setDishOrderId(this.getId());
           status.setCreationDate(LocalDateTime.of(2025, 1, 4, 0, 0, 0));
+          status.setId((long) status.hashCode());
 
           List<DishOrderStatus> newStatusList = new ArrayList<>(this.getStatusList());
           newStatusList.add(status);
@@ -96,6 +100,7 @@ public class DishOrder {
           status.setStatus(DELIVERED);
           status.setDishOrderId(this.getId());
           status.setCreationDate(LocalDateTime.of(2025, 1, 5, 0, 0, 0));
+          status.setId((long) status.hashCode());
 
           List<DishOrderStatus> newStatusList = new ArrayList<>(this.getStatusList());
           newStatusList.add(status);
