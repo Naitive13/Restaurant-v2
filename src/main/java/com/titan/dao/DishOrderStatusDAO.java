@@ -68,9 +68,9 @@ public class DishOrderStatusDAO implements CrudDAO<DishOrderStatus> {
   public List<DishOrderStatus> saveAll(List<DishOrderStatus> dishOrderStatusesToAdd) {
         List<DishOrderStatus> dishOrderStatusList = new ArrayList<>();
     String query =
-        "INSERT INTO ingredient "
+        "INSERT INTO dish_order_status "
             + "(status_id, dish_order_id, dish_order_status, creation_date) "
-            + "VALUES (?,?,?::unit,?) "
+            + "VALUES (?,?,?::statusType,?) "
             + "ON CONFLICT (dish_order_id, dish_order_status) DO NOTHING "
             + "RETURNING status_id, dish_order_id, dish_order_status, creation_date";
 
