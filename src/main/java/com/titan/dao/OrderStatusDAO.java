@@ -65,38 +65,42 @@ public class OrderStatusDAO implements CrudDAO<OrderStatus> {
   @Override
   public List<OrderStatus> saveAll(List<OrderStatus> orderStatusesToAdd) {
     List<OrderStatus> orderStatusList = new ArrayList<>();
-    String query =
-        "INSERT INTO order_status "
-            + "(status_id, order_reference, order_status, creation_date) "
-            + "VALUES (?,?,?::statusType,?) "
-            + "ON CONFLICT (order_reference, dish_order_status) DO NOTHING "
-            + "RETURNING status_id, dish_order_id, dish_order_status, creation_date";
 
-    try (Connection connection = this.datasource.getConnection();
-        PreparedStatement st = connection.prepareStatement(query)) {
+    if (orderStatusesToAdd != null && !orderStatusesToAdd.isEmpty()) {
+      String query =
+          "INSERT INTO order_status "
+              + "(status_id, order_reference, order_status, creation_date) "
+              + "VALUES (?,?,?::statusType,?) "
+              + "ON CONFLICT (order_reference, order_status) DO NOTHING "
+              + "RETURNING status_id, dish_order_id, order_status, creation_date";
 
-      orderStatusesToAdd.forEach(
-          dishOrderStatus -> {
-            try {
-              st.setLong(1, dishOrderStatus.getId());
-              st.setString(2, dishOrderStatus.getOrderReference());
-              st.setString(3, dishOrderStatus.getStatus().toString());
-              st.setTimestamp(4, Timestamp.valueOf(dishOrderStatus.getCreationDate()));
+      try (Connection connection = this.datasource.getConnection();
+          PreparedStatement st = connection.prepareStatement(query)) {
 
-              try (ResultSet rs = st.executeQuery()) {
-                if (rs.next()) {
-                  orderStatusList.add(orderStatusMapper.apply(rs));
+        orderStatusesToAdd.forEach(
+            dishOrderStatus -> {
+              try {
+                st.setLong(1, dishOrderStatus.getId());
+                st.setString(2, dishOrderStatus.getOrderReference());
+                st.setString(3, dishOrderStatus.getStatus().toString());
+                st.setTimestamp(4, Timestamp.valueOf(dishOrderStatus.getCreationDate()));
+
+                try (ResultSet rs = st.executeQuery()) {
+                  if (rs.next()) {
+                    orderStatusList.add(orderStatusMapper.apply(rs));
+                  }
                 }
+              } catch (SQLException e) {
+                throw new RuntimeException(e);
               }
-            } catch (SQLException e) {
-              throw new RuntimeException(e);
-            }
-          });
+            });
 
-      return orderStatusList;
-    } catch (Exception e) {
-      throw new RuntimeException(e);
+      } catch (Exception e) {
+        throw new RuntimeException(e);
+      }
     }
+
+    return orderStatusList;
   }
 
   public List<OrderStatus> getStatusFor(String reference) {

@@ -66,39 +66,42 @@ public class DishOrderStatusDAO implements CrudDAO<DishOrderStatus> {
 
   @Override
   public List<DishOrderStatus> saveAll(List<DishOrderStatus> dishOrderStatusesToAdd) {
-        List<DishOrderStatus> dishOrderStatusList = new ArrayList<>();
-    String query =
-        "INSERT INTO dish_order_status "
-            + "(status_id, dish_order_id, dish_order_status, creation_date) "
-            + "VALUES (?,?,?::statusType,?) "
-            + "ON CONFLICT (dish_order_id, dish_order_status) DO NOTHING "
-            + "RETURNING status_id, dish_order_id, dish_order_status, creation_date";
+    List<DishOrderStatus> dishOrderStatusList = new ArrayList<>();
 
-    try (Connection connection = this.datasource.getConnection();
-        PreparedStatement st = connection.prepareStatement(query)) {
+    if (dishOrderStatusesToAdd != null && !dishOrderStatusesToAdd.isEmpty()) {
+      String query =
+          "INSERT INTO dish_order_status "
+              + "(status_id, dish_order_id, dish_order_status, creation_date) "
+              + "VALUES (?,?,?::statusType,?) "
+              + "ON CONFLICT (dish_order_id, dish_order_status) DO NOTHING "
+              + "RETURNING status_id, dish_order_id, dish_order_status, creation_date";
 
-      dishOrderStatusesToAdd.forEach(
-          dishOrderStatus -> {
-            try {
-              st.setLong(1, dishOrderStatus.getId());
-              st.setLong(2, dishOrderStatus.getDishOrderId());
-              st.setString(3, dishOrderStatus.getStatus().toString());
-              st.setTimestamp(4, Timestamp.valueOf(dishOrderStatus.getCreationDate()));
+      try (Connection connection = this.datasource.getConnection();
+          PreparedStatement st = connection.prepareStatement(query)) {
 
-              try (ResultSet rs = st.executeQuery()) {
-                if (rs.next()) {
-                  dishOrderStatusList.add(dishOrderStatusMapper.apply(rs));
+        dishOrderStatusesToAdd.forEach(
+            dishOrderStatus -> {
+              try {
+                st.setLong(1, dishOrderStatus.getId());
+                st.setLong(2, dishOrderStatus.getDishOrderId());
+                st.setString(3, dishOrderStatus.getStatus().toString());
+                st.setTimestamp(4, Timestamp.valueOf(dishOrderStatus.getCreationDate()));
+
+                try (ResultSet rs = st.executeQuery()) {
+                  if (rs.next()) {
+                    dishOrderStatusList.add(dishOrderStatusMapper.apply(rs));
+                  }
                 }
+              } catch (SQLException e) {
+                throw new RuntimeException(e);
               }
-            } catch (SQLException e) {
-              throw new RuntimeException(e);
-            }
-          });
+            });
 
-      return dishOrderStatusList;
-    } catch (Exception e) {
-      throw new RuntimeException(e);
+      } catch (Exception e) {
+        throw new RuntimeException(e);
+      }
     }
+    return dishOrderStatusList;
   }
 
   public List<DishOrderStatus> getStatusListFor(Long dishOrderId) {
