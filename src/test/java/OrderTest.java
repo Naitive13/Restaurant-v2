@@ -68,10 +68,12 @@ public class OrderTest {
     dishOrder.setId(2L);
     dishOrder.setQuantity(5);
     dishOrder.setDish(dishDAO.getById(1L));
+    dishOrder.setStatusList(List.of());
 
     order.setReference("ORD002");
     order.setCreationDate(LocalDateTime.of(2025, 1, 1, 0, 0, 0));
     order.setDishOrders(List.of(dishOrder));
+    order.setStatusList(List.of());
 
     return order;
   }
