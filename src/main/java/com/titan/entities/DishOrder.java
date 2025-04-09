@@ -17,7 +17,7 @@ public class DishOrder {
   private Long id;
   private String orderReference;
   private Dish dish;
-  private Long quantity;
+  private int quantity;
   private List<DishOrderStatus> statusList;
 
   public DishOrderStatus getActualStatus() {
