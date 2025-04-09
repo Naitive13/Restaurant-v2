@@ -14,13 +14,13 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class Order {
-  private final OrderStatusDAO orderStatusDAO = new OrderStatusDAO();
   private String reference;
   private LocalDateTime creationDate;
   private List<DishOrder> dishOrders;
   private List<OrderStatus> statusList;
 
   public OrderStatus getActualStatus() {
+    OrderStatusDAO orderStatusDAO = new OrderStatusDAO();
     if (this.getStatusList() == null || this.getStatusList().isEmpty()) {
       OrderStatus status = new OrderStatus();
       status.setStatus(CREATED);
@@ -38,6 +38,7 @@ public class Order {
   }
 
   public void updateStatus() {
+    OrderStatusDAO orderStatusDAO = new OrderStatusDAO();
     if (this.getStatusList().isEmpty()) {
       OrderStatus status = new OrderStatus();
       status.setStatus(CREATED);
@@ -64,6 +65,7 @@ public class Order {
 
             List<OrderStatus> newStatusList = new ArrayList<>(this.getStatusList());
             newStatusList.add(status);
+            orderStatusDAO.saveAll(newStatusList);
 
             this.setStatusList(newStatusList);
           }

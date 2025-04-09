@@ -17,8 +17,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class DishOrder {
-  private final DishOrderStatusDAO dishOrderStatusDAO = new DishOrderStatusDAO();
-  private final OrderDAO orderDAO = new OrderDAO();
   private Long id;
   private String orderReference;
   private Dish dish;
@@ -27,6 +25,7 @@ public class DishOrder {
 
   public DishOrderStatus getActualStatus() {
     if (this.getStatusList() == null || this.getStatusList().isEmpty()) {
+      DishOrderStatusDAO dishOrderStatusDAO = new DishOrderStatusDAO();
       DishOrderStatus status = new DishOrderStatus();
       status.setStatus(CREATED);
       status.setDishOrderId(this.getId());
@@ -43,6 +42,8 @@ public class DishOrder {
   }
 
   public void updateStatus() {
+    DishOrderStatusDAO dishOrderStatusDAO = new DishOrderStatusDAO();
+    OrderDAO orderDAO = new OrderDAO();
     if (this.getStatusList().isEmpty()) {
       DishOrderStatus status = new DishOrderStatus();
       status.setStatus(CREATED);
