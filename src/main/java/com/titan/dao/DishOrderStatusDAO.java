@@ -21,7 +21,7 @@ public class DishOrderStatusDAO implements CrudDAO<DishOrderStatus> {
   public List<DishOrderStatus> getAll(int page, int pageSize) {
     List<DishOrderStatus> dishOrderStatusList = new ArrayList<>();
     String query =
-        "SELECT status_id, dish_order_id, dish_order_id, dish_order_status, creation_date "
+        "SELECT status_id, dish_order_id, dish_order_status, creation_date "
             + "FROM dish_order_status LIMIT ? OFFSET ?";
 
     try (Connection connection = this.datasource.getConnection();
@@ -104,7 +104,7 @@ public class DishOrderStatusDAO implements CrudDAO<DishOrderStatus> {
   public List<DishOrderStatus> getStatusListFor(Long dishOrderId) {
     List<DishOrderStatus> dishOrderStatusList = new ArrayList<>();
     String query =
-        "SELECT status_id, dish_order_id, dish_order_id, dish_order_status, creation_date "
+        "SELECT status_id, dish_order_id, dish_order_status, creation_date "
             + "FROM dish_order_status WHERE dish_order_id = ?";
 
     try (Connection connection = this.datasource.getConnection();
