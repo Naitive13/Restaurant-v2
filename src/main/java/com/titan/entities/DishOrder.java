@@ -29,7 +29,7 @@ public class DishOrder {
       DishOrderStatus status = new DishOrderStatus();
       status.setStatus(CREATED);
       status.setDishOrderId(this.getId());
-      status.setCreationDate(LocalDateTime.now());
+      status.setCreationDate(LocalDateTime.of(2025, 1, 1, 0, 0, 0));
       status.setId((long) status.hashCode());
 
       this.setStatusList(List.of(status));
@@ -37,8 +37,9 @@ public class DishOrder {
       return status;
     } else {
       return this.getStatusList().stream()
-          .min(Comparator.comparing(DishOrderStatus::getCreationDate, naturalOrder()))
-          .get();
+              .max(Comparator.comparing(DishOrderStatus::getCreationDate, naturalOrder()))
+              .get();
+
     }
   }
 
