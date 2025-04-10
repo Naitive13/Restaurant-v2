@@ -32,6 +32,7 @@ public class OrderMapper implements Function<ResultSet, Order> {
         order.setCreationDate(rs.getTimestamp("creation_date").toLocalDateTime());
         order.setStatusList(orderStatus);
         order.setDishOrders(dishOrders);
+        order.setOrderStatusDAO(orderStatusDAO);
 
         return order;
     }
