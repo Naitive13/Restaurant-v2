@@ -2,8 +2,10 @@ package com.titan.service;
 
 import com.titan.model.entities.Ingredient;
 import com.titan.model.entities.Price;
+import com.titan.model.entities.StockMovement;
 import com.titan.repository.dao.IngredientDAO;
 import com.titan.repository.dao.PriceDAO;
+import com.titan.repository.dao.StockDAO;
 import com.titan.service.exceptions.ClientException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,7 @@ import java.util.List;
 public class IngredientService {
   private final IngredientDAO ingredientDAO;
   private final PriceDAO priceDAO;
+  private final StockDAO stockDAO;
 
   public List<Ingredient> getIngredientsByPrices(
       Double priceMinFilter, Double priceMaxFilter, int page, int pageSize) {
@@ -47,6 +50,10 @@ public class IngredientService {
 
   public void createOrUpdateIngredientPrices(List<Price> prices) {
     priceDAO.saveAll(prices);
+  }
+
+  public void createOrUpdateIngredientStocks(List<StockMovement> stockMovements) {
+    stockDAO.saveAll(stockMovements);
   }
 
   private void validatePagination(int page, int pageSize) {

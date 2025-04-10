@@ -2,10 +2,13 @@ package com.titan.controller.endpoint;
 
 import com.titan.controller.mapper.IngredientRestMapper;
 import com.titan.controller.mapper.PriceRestMapper;
+import com.titan.controller.mapper.StockMovementRestMapper;
 import com.titan.model.entities.Ingredient;
 import com.titan.model.entities.Price;
+import com.titan.model.entities.StockMovement;
 import com.titan.model.rest.IngredientRest;
 import com.titan.model.rest.PriceRest;
+import com.titan.model.rest.StockMovementRest;
 import com.titan.service.IngredientService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +21,7 @@ public class IngredientRestController {
   private final IngredientService ingredientService;
   private final IngredientRestMapper ingredientRestMapper;
   private final PriceRestMapper priceRestMapper;
+  private final StockMovementRestMapper stockMovementRestMapper;
 
   @GetMapping("/ingredients")
   public ResponseEntity<Object> getIngredients(
@@ -81,6 +85,26 @@ public class IngredientRestController {
     ingredientService.createOrUpdateIngredientPrices(prices);
     IngredientRest ingredientRests =
         ingredientRestMapper.toRest(ingredientService.getIngredientById(id));
+
+    return ResponseEntity.ok().body(ingredientRests);
+  }
+
+  @PutMapping("/ingredients/{id}/stockMovements")
+  public ResponseEntity<Object> updateIngredientStocks(
+          @PathVariable Long id, @RequestBody List<StockMovementRest> stocksToAdd) {
+    List<StockMovement> stockMovements =
+            stocksToAdd.stream()
+                    .map(
+                            stockMovementRest -> {
+                              StockMovement stockMovement = stockMovementRestMapper.toModel(stockMovementRest);
+                              stockMovement.setIngredientId(id);
+                              return stockMovement;
+                            })
+                    .toList();
+
+    ingredientService.createOrUpdateIngredientStocks(stockMovements);
+    IngredientRest ingredientRests =
+            ingredientRestMapper.toRest(ingredientService.getIngredientById(id));
 
     return ResponseEntity.ok().body(ingredientRests);
   }
