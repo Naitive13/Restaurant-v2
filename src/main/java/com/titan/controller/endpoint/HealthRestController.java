@@ -1,4 +1,4 @@
-package com.titan.controller;
+package com.titan.controller.endpoint;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
