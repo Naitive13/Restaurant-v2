@@ -19,6 +19,12 @@ public class StockMovementRestMapper implements BiMapper<StockMovementRest, Stoc
 
   @Override
   public StockMovement toModel(StockMovementRest stockMovementRest) {
-    return null;
+    StockMovement stockMovement= new StockMovement();
+    stockMovement.setId(stockMovementRest.getId());
+    stockMovement.setQuantity(stockMovementRest.getQuantity());
+    stockMovement.setLastModified(stockMovementRest.getCreationDatetime());
+    stockMovement.setType(stockMovementRest.getType());
+
+    return stockMovement;
   }
 }

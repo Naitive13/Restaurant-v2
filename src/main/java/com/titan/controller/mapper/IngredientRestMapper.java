@@ -1,9 +1,13 @@
 package com.titan.controller.mapper;
 
 import com.titan.model.entities.Ingredient;
+import com.titan.model.entities.Price;
+import com.titan.model.entities.StockMovement;
 import com.titan.model.rest.IngredientRest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @Component
@@ -33,6 +37,31 @@ public class IngredientRestMapper implements BiMapper<IngredientRest, Ingredient
 
   @Override
   public Ingredient toModel(IngredientRest ingredientRest) {
-    return null;
+    Ingredient ingredient = new Ingredient();
+    ingredient.setIngredientId(ingredientRest.getId());
+    ingredient.setIngredientName(ingredientRest.getName());
+    ingredient.setUnit(ingredientRest.getStockMovements().getFirst().getUnit());
+    ingredient.setLastModified(LocalDateTime.now());
+
+    ingredient.setIngredientPrices(
+        ingredientRest.getPrices().stream()
+            .map(
+                priceRest -> {
+                  Price price = priceRestMapper.toModel(priceRest);
+                  price.setIngredientId(ingredient.getIngredientId());
+                  return price;
+                })
+            .toList());
+    ingredient.setStockMovements(
+        ingredientRest.getStockMovements().stream()
+            .map(
+                stockMovementRest -> {
+                  StockMovement stockMovement = stockMovementRestMapper.toModel(stockMovementRest);
+                  stockMovement.setIngredientId(ingredient.getIngredientId());
+                  return stockMovement;
+                })
+            .toList());
+
+    return ingredient;
   }
 }

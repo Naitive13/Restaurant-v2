@@ -18,6 +18,11 @@ public class PriceRestMapper implements BiMapper<PriceRest, Price> {
 
   @Override
   public Price toModel(PriceRest priceRest) {
-    return null;
+    Price price = new Price();
+    price.setId(priceRest.getId());
+    price.setValue(priceRest.getPrice());
+    price.setDate(priceRest.getDateValue());
+
+    return price;
   }
 }
