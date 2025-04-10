@@ -23,17 +23,8 @@ public class IngredientService {
     return ingredients.stream()
         .filter(
             ingredient -> {
-              if (priceMinFilter == null && priceMaxFilter == null) {
-                return true;
-              }
-              double unitPrice = ingredient.getActualPrice();
-              if (priceMinFilter != null && priceMaxFilter == null) {
-                return unitPrice >= priceMinFilter;
-              }
-              if (priceMinFilter == null) {
-                return unitPrice <= priceMaxFilter;
-              }
-              return unitPrice >= priceMinFilter && unitPrice <= priceMaxFilter;
+                double unitPrice = ingredient.getActualPrice();
+                return unitPrice >= priceMinFilter && unitPrice <= priceMaxFilter;
             })
         .toList();
   }
