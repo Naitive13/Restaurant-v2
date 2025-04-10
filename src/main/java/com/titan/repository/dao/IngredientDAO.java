@@ -106,4 +106,25 @@ public class IngredientDAO implements CrudDAO<Ingredient> {
       throw new RuntimeException(e);
     }
   }
+
+   public Ingredient getByName(String name) {
+    String query =
+        "SELECT ingredient_id, ingredient_name, unit, last_modified "
+            + "FROM ingredient WHERE ingredient_name = ?";
+
+    try (Connection connection = this.datasource.getConnection();
+        PreparedStatement st = connection.prepareStatement(query)) {
+      st.setString(1, name);
+
+      try (ResultSet rs = st.executeQuery()) {
+        if (rs.next()) {
+          return ingredientMapper.apply(rs);
+        } else {
+          throw new RuntimeException("ingredient not found");
+        }
+      }
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
 }
