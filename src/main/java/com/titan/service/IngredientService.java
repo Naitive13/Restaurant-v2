@@ -38,6 +38,11 @@ public class IngredientService {
         .toList();
   }
 
+  public List<Ingredient> getAllIngredients(int page, int pageSize){
+      validatePagination(page,pageSize);
+      return ingredientDAO.getAll(page,pageSize);
+  }
+
   private void validatePagination(int page, int pageSize) {
     if (page < 1) {
       throw new ClientException("Page number must be at least 1. Provided value: " + page);
