@@ -6,7 +6,6 @@ import com.titan.model.rest.IngredientRest;
 import com.titan.service.IngredientService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,7 +45,8 @@ public class IngredientRestController {
   @PostMapping("/ingredients")
   public ResponseEntity<Object> saveIngredients (@RequestBody List<IngredientRest> ingredientsToAdd){
     List<Ingredient> ingredients = ingredientsToAdd.stream().map(ingredientRestMapper::toModel).toList();
-    ingredientService.createIngredients(ingredients);
+    ingredientService.createOrUpdateIngredients(ingredients);
     return ResponseEntity.ok().body(ingredientsToAdd);
   }
+
 }

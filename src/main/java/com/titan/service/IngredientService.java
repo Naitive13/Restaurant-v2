@@ -38,7 +38,7 @@ public class IngredientService {
     return ingredientDAO.getById(id);
   }
 
-  public void createIngredients(List<Ingredient> ingredients) {
+  public void createOrUpdateIngredients(List<Ingredient> ingredients) {
     ingredientDAO.saveAll(ingredients);
   }
 
