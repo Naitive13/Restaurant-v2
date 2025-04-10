@@ -2,7 +2,9 @@ package com.titan.controller.mapper;
 
 import com.titan.model.entities.DishIngredient;
 import com.titan.model.rest.DishIngredientRest;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DishIngredientRestMapper implements BiMapper<DishIngredientRest, DishIngredient> {
   @Override
   public DishIngredientRest toRest(DishIngredient dishIngredient) {
