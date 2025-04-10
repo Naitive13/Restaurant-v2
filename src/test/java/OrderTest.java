@@ -1,5 +1,4 @@
-import static com.titan.entities.enums.StatusType.CONFIRMED;
-import static com.titan.entities.enums.StatusType.CREATED;
+import static com.titan.entities.enums.StatusType.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.titan.dao.DishDAO;
@@ -50,7 +49,7 @@ public class OrderTest {
 
   @Test
   @org.junit.jupiter.api.Order(5)
-  public void update_order_status() {
+  public void confirm_order() {
     Order order = subject.getByReference("ORD002");
     order.updateStatus();
     assertEquals(CONFIRMED, order.getActualStatus().getStatus());
@@ -58,6 +57,32 @@ public class OrderTest {
         order.getDishOrders().stream()
             .map(dishOrder -> dishOrder.getActualStatus().getStatus())
             .allMatch(CONFIRMED::equals));
+  }
+
+  @Test
+  @org.junit.jupiter.api.Order(6)
+  public void update_order_status_to_in_progress() {
+    Order order = subject.getByReference("ORD002");
+    order.updateStatus();
+    System.out.println(order.getDishOrders().stream().map(DishOrder::getActualStatus).toList());
+    assertEquals(IN_PROGRESS, order.getActualStatus().getStatus());
+    assertTrue(
+            order.getDishOrders().stream()
+                    .map(dishOrder -> dishOrder.getActualStatus().getStatus())
+                    .allMatch(IN_PROGRESS::equals));
+  }
+
+  @Test
+  @org.junit.jupiter.api.Order(7)
+  public void update_order_status_to_done() {
+    Order order = subject.getByReference("ORD002");
+    order.getDishOrders().forEach(DishOrder::updateStatus);
+    Order updatedOrder = subject.getByReference("ORD002");
+    assertEquals(DONE, updatedOrder.getActualStatus().getStatus());
+    assertTrue(
+            updatedOrder.getDishOrders().stream()
+                    .map(dishOrder -> dishOrder.getActualStatus().getStatus())
+                    .allMatch(DONE::equals));
   }
 
   private Order newOrder() {
