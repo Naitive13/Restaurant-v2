@@ -13,7 +13,7 @@ public class DishRestMapper implements BiMapper<DishRest, Dish> {
   @Override
   public DishRest toRest(Dish dish) {
     DishRest dishRest = new DishRest();
-    dishRest.setId(dishRest.getId());
+    dishRest.setId(dish.getDishId());
     dishRest.setName(dish.getDishName());
     dishRest.setAvailableQuantity(dish.getAvailableQuantity());
     dishRest.setActualPrice((double) dish.getDishPrice());
