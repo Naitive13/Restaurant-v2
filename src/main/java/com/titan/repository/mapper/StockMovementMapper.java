@@ -3,10 +3,12 @@ package com.titan.repository.mapper;
 import com.titan.model.entities.StockMovement;
 import com.titan.model.enums.StockType;
 import lombok.SneakyThrows;
+import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.util.function.Function;
 
+@Component
 public class StockMovementMapper implements Function<ResultSet, StockMovement> {
   @Override
   @SneakyThrows

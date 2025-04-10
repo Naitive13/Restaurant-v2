@@ -3,18 +3,18 @@ package com.titan.repository.dao;
 import com.titan.repository.mapper.OrderStatusMapper;
 import com.titan.repository.db.Datasource;
 import com.titan.model.entities.OrderStatus;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
+@RequiredArgsConstructor
 public class OrderStatusDAO implements CrudDAO<OrderStatus> {
   private final Datasource datasource;
   private final OrderStatusMapper orderStatusMapper;
-
-  public OrderStatusDAO() {
-    this.orderStatusMapper = new OrderStatusMapper();
-    this.datasource = new Datasource();
-  }
 
   @Override
   public List<OrderStatus> getAll(int page, int pageSize) {

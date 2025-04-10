@@ -4,7 +4,9 @@ import com.titan.model.entities.Price;
 import java.sql.ResultSet;
 import java.util.function.Function;
 import lombok.SneakyThrows;
+import org.springframework.stereotype.Component;
 
+@Component
 public class PriceMapper implements Function<ResultSet, Price> {
   @Override
   @SneakyThrows

@@ -3,22 +3,21 @@ package com.titan.repository.dao;
 import com.titan.repository.mapper.DishOrderMapper;
 import com.titan.repository.db.Datasource;
 import com.titan.model.entities.DishOrder;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
+@RequiredArgsConstructor
 public class DishOrderDAO implements CrudDAO<DishOrder> {
   private final Datasource datasource;
   private final DishOrderMapper dishOrderMapper;
   private final DishOrderStatusDAO dishOrderStatusDAO;
-
-  public DishOrderDAO() {
-    this.datasource = new Datasource();
-    this.dishOrderMapper = new DishOrderMapper();
-    this.dishOrderStatusDAO = new DishOrderStatusDAO();
-  }
 
   @Override
   public List<DishOrder> getAll(int page, int pageSize) {

@@ -1,8 +1,11 @@
 package com.titan.repository.db;
 
+import org.springframework.context.annotation.Configuration;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+@Configuration
 public class Datasource {
   private final String url = System.getenv("DB_URL");
   private final String port = System.getenv("DB_PORT");

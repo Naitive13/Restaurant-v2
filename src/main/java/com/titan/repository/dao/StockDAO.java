@@ -3,18 +3,18 @@ package com.titan.repository.dao;
 import com.titan.repository.mapper.StockMovementMapper;
 import com.titan.repository.db.Datasource;
 import com.titan.model.entities.StockMovement;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
+@RequiredArgsConstructor
 public class StockDAO implements CrudDAO<StockMovement> {
   private final Datasource datasource;
   private final StockMovementMapper stockMovementMapper;
-
-  public StockDAO() {
-    this.datasource = new Datasource();
-    this.stockMovementMapper = new StockMovementMapper();
-  }
 
   @Override
   public List<StockMovement> getAll(int page, int pageSize) {

@@ -3,6 +3,9 @@ package com.titan.repository.dao;
 import com.titan.repository.mapper.DishIngredientMapper;
 import com.titan.repository.db.Datasource;
 import com.titan.model.entities.DishIngredient;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,16 +13,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
+@RequiredArgsConstructor
 public class DishIngredientDAO implements CrudDAO<DishIngredient> {
   private final Datasource datasource;
   private final DishIngredientMapper dishIngredientMapper;
   private final IngredientDAO ingredientDAO;
-
-  public DishIngredientDAO() {
-    this.datasource = new Datasource();
-    this.dishIngredientMapper = new DishIngredientMapper();
-    this.ingredientDAO = new IngredientDAO();
-  }
 
   @Override
   public List<DishIngredient> getAll(int page, int pageSize) {

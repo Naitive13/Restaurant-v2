@@ -3,19 +3,18 @@ package com.titan.repository.dao;
 import com.titan.repository.mapper.PriceMapper;
 import com.titan.repository.db.Datasource;
 import com.titan.model.entities.Price;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
+@RequiredArgsConstructor
 public class PriceDAO implements CrudDAO<Price> {
   private final Datasource datasource;
   private final PriceMapper priceMapper;
-
-  public PriceDAO() {
-    this.datasource = new Datasource();
-    this.priceMapper = new PriceMapper();
-  }
 
   @Override
   public List<Price> getAll(int page, int pageSize) {

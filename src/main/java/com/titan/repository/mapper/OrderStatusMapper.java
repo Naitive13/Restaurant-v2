@@ -3,10 +3,12 @@ package com.titan.repository.mapper;
 import com.titan.model.entities.OrderStatus;
 import com.titan.model.enums.StatusType;
 import lombok.SneakyThrows;
+import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.util.function.Function;
 
+@Component
 public class OrderStatusMapper implements Function<ResultSet, OrderStatus> {
   @Override
   @SneakyThrows

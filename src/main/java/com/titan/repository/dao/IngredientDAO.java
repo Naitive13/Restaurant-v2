@@ -3,23 +3,20 @@ package com.titan.repository.dao;
 import com.titan.repository.mapper.IngredientMapper;
 import com.titan.repository.db.Datasource;
 import com.titan.model.entities.Ingredient;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
+@RequiredArgsConstructor
 public class IngredientDAO implements CrudDAO<Ingredient> {
   private final Datasource datasource;
   private final IngredientMapper ingredientMapper;
   private final PriceDAO priceDAO;
   private final StockDAO stockDAO;
-
-  public IngredientDAO() {
-    this.datasource = new Datasource();
-    this.ingredientMapper = new IngredientMapper();
-    this.priceDAO = new PriceDAO();
-    this.stockDAO = new StockDAO();
-  }
 
   @Override
   public List<Ingredient> getAll(int page, int pageSize) {

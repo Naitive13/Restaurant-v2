@@ -2,7 +2,9 @@ package com.titan.controller.mapper;
 
 import com.titan.model.entities.StockMovement;
 import com.titan.model.rest.StockMovementRest;
+import org.springframework.stereotype.Component;
 
+@Component
 public class StockMovementRestMapper implements BiMapper<StockMovementRest, StockMovement> {
   @Override
   public StockMovementRest toRest(StockMovement stockMovement) {

@@ -4,17 +4,22 @@ import com.titan.repository.dao.PriceDAO;
 import com.titan.repository.dao.StockDAO;
 import com.titan.model.entities.Ingredient;
 import com.titan.model.enums.UnitType;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.util.function.Function;
 
+@Component
+@RequiredArgsConstructor
 public class IngredientMapper implements Function<ResultSet, Ingredient> {
+    private final PriceDAO priceDAO;
+    private final StockDAO stockDAO;
+
     @Override
     @SneakyThrows
     public Ingredient apply(ResultSet rs) {
-        StockDAO stockDAO = new StockDAO();
-        PriceDAO priceDAO = new PriceDAO();
         Ingredient ingredient = new Ingredient();
         long ingredientId = rs.getLong("ingredient_id");
 

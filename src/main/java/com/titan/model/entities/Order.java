@@ -3,6 +3,8 @@ package com.titan.model.entities;
 import static com.titan.model.enums.StatusType.*;
 import static java.util.Comparator.naturalOrder;
 
+import com.titan.repository.dao.DishOrderStatusDAO;
+import com.titan.repository.dao.OrderDAO;
 import com.titan.repository.dao.OrderStatusDAO;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -10,6 +12,7 @@ import java.util.Comparator;
 import java.util.List;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Data
 @NoArgsConstructor
@@ -18,9 +21,10 @@ public class Order {
   private LocalDateTime creationDate;
   private List<DishOrder> dishOrders;
   private List<OrderStatus> statusList;
+  @Autowired
+  private OrderStatusDAO orderStatusDAO;
 
   public OrderStatus getActualStatus() {
-    OrderStatusDAO orderStatusDAO = new OrderStatusDAO();
     if (this.getStatusList() == null || this.getStatusList().isEmpty()) {
       OrderStatus status = new OrderStatus();
       status.setStatus(CREATED);
@@ -39,7 +43,6 @@ public class Order {
   }
 
   public void updateStatus() {
-    OrderStatusDAO orderStatusDAO = new OrderStatusDAO();
     if (this.getStatusList().isEmpty()) {
       OrderStatus status = new OrderStatus();
       status.setStatus(CREATED);

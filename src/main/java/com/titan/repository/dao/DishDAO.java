@@ -3,6 +3,9 @@ package com.titan.repository.dao;
 import com.titan.repository.mapper.DishMapper;
 import com.titan.repository.db.Datasource;
 import com.titan.model.entities.Dish;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,16 +13,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
+@RequiredArgsConstructor
 public class DishDAO implements CrudDAO<Dish> {
   private final Datasource datasource;
   private final DishMapper dishMapper;
   private final DishIngredientDAO dishIngredientDAO;
-
-  public DishDAO() {
-    this.datasource = new Datasource();
-    this.dishIngredientDAO = new DishIngredientDAO();
-    this.dishMapper = new DishMapper();
-  }
 
   @Override
   public List<Dish> getAll(int page, int pageSize) {
@@ -45,7 +44,6 @@ public class DishDAO implements CrudDAO<Dish> {
 
   @Override
   public Dish getById(long id) {
-    DishMapper dishMapper = new DishMapper();
     String query = "SELECT dish_id, dish_name, dish_price FROM dish WHERE dish_id = ?";
 
     try (Connection connection = this.datasource.getConnection();
