@@ -245,13 +245,16 @@ components:
     DishIngredient:
       type: object
       properties:
+        id:
+          type: integer
+        name:
+          type: string
         requiredQuantity:
           type: number
           format: float
         unit:
           $ref: '#/components/schemas/Unit'
-        ingredient:
-          $ref: '#/components/schemas/IngredientBasicProperty'
+
     IngredientBasicProperty:
       type: object
       properties:
