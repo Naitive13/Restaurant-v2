@@ -1,5 +1,5 @@
-import com.titan.dao.DishDAO;
-import com.titan.entities.Dish;
+import com.titan.repository.dao.DishDAO;
+import com.titan.model.entities.Dish;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;

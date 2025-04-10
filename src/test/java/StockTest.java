@@ -1,7 +1,7 @@
-import com.titan.dao.IngredientDAO;
-import com.titan.dao.StockDAO;
-import com.titan.entities.Ingredient;
-import com.titan.entities.StockMovement;
+import com.titan.repository.dao.IngredientDAO;
+import com.titan.repository.dao.StockDAO;
+import com.titan.model.entities.Ingredient;
+import com.titan.model.entities.StockMovement;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.titan.entities.enums.StockType.IN;
-import static com.titan.entities.enums.StockType.OUT;
+import static com.titan.model.enums.StockType.IN;
+import static com.titan.model.enums.StockType.OUT;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 

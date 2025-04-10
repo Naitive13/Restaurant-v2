@@ -1,10 +1,10 @@
-import static com.titan.entities.enums.StatusType.*;
+import static com.titan.model.enums.StatusType.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.titan.dao.DishDAO;
-import com.titan.dao.OrderDAO;
-import com.titan.entities.DishOrder;
-import com.titan.entities.Order;
+import com.titan.repository.dao.DishDAO;
+import com.titan.repository.dao.OrderDAO;
+import com.titan.model.entities.DishOrder;
+import com.titan.model.entities.Order;
 import java.time.LocalDateTime;
 import java.util.List;
 

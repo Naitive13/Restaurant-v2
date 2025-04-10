@@ -1,7 +1,6 @@
-import com.titan.dao.IngredientDAO;
-import com.titan.entities.Dish;
-import com.titan.entities.Ingredient;
-import com.titan.entities.Price;
+import com.titan.repository.dao.IngredientDAO;
+import com.titan.model.entities.Ingredient;
+import com.titan.model.entities.Price;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -10,7 +9,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.titan.entities.enums.UnitType.G;
+import static com.titan.model.enums.UnitType.G;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
