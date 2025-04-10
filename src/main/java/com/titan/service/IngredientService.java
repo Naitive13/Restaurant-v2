@@ -1,7 +1,9 @@
 package com.titan.service;
 
 import com.titan.model.entities.Ingredient;
+import com.titan.model.entities.Price;
 import com.titan.repository.dao.IngredientDAO;
+import com.titan.repository.dao.PriceDAO;
 import com.titan.service.exceptions.ClientException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class IngredientService {
   private final IngredientDAO ingredientDAO;
+  private final PriceDAO priceDAO;
 
   public List<Ingredient> getIngredientsByPrices(
       Double priceMinFilter, Double priceMaxFilter, int page, int pageSize) {
@@ -42,6 +45,10 @@ public class IngredientService {
     ingredientDAO.saveAll(ingredients);
   }
 
+  public void createOrUpdateIngredientPrices(List<Price> prices) {
+    priceDAO.saveAll(prices);
+  }
+
   private void validatePagination(int page, int pageSize) {
     if (page < 1) {
       throw new ClientException("Page number must be at least 1. Provided value: " + page);
@@ -67,4 +74,5 @@ public class IngredientService {
           "PriceMinFilter " + priceMinFilter + " is greater than PriceMaxFilter " + priceMaxFilter);
     }
   }
+
 }
