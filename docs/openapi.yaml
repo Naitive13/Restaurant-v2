@@ -22,6 +22,18 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Ingredient'
+  /ingredients/{id}:
+    get:
+      summary: Get a specific ingredient
+      parameters:
+        - $ref: '#/components/parameters/IngredientIdentifier'
+      responses:
+        200:
+          description: the specific ingredients
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ingredient'
   /ingredients/{id}/prices:
     put:
       summary: Add new prices to a specific ingredient
