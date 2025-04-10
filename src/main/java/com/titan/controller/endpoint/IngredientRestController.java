@@ -49,4 +49,11 @@ public class IngredientRestController {
     return ResponseEntity.ok().body(ingredientsToAdd);
   }
 
+  @PutMapping("/ingredients")
+  public ResponseEntity<Object> updateIngredients (@RequestBody List<IngredientRest> ingredientsToAdd){
+    List<Ingredient> ingredients = ingredientsToAdd.stream().map(ingredientRestMapper::toModel).toList();
+    ingredientService.createOrUpdateIngredients(ingredients);
+    return ResponseEntity.ok().body(ingredientsToAdd);
+  }
+
 }
