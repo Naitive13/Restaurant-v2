@@ -86,6 +86,8 @@ public class Order {
           status.setCreationDate(LocalDateTime.of(2025, 1, 3, 0, 0, 0));
           status.setId((long) status.hashCode());
 
+          this.getDishOrders().forEach(DishOrder::updateStatus);
+
           List<OrderStatus> newStatusList = new ArrayList<>(this.getStatusList());
           newStatusList.add(status);
           this.setStatusList(newStatusList);
