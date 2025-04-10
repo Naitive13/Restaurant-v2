@@ -53,6 +53,9 @@ public class IngredientService {
   }
 
   private void validatePrice(Double priceMinFilter, Double priceMaxFilter) {
+      if (priceMinFilter == null || priceMaxFilter == null){
+          throw new ClientException("You must use priceMinFilter and priceMaxFilter together but not individually");
+      }
     if (priceMinFilter < 0) {
       throw new ClientException("PriceMinFilter " + priceMinFilter + " is negative");
     }
