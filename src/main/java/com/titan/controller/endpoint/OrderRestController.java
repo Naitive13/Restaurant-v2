@@ -6,9 +6,12 @@ import com.titan.model.entities.DishOrder;
 import com.titan.model.entities.Order;
 import com.titan.model.rest.DishOrderRest;
 import com.titan.model.rest.OrderRest;
+import com.titan.repository.dao.DishOrderStatusDAO;
+import com.titan.repository.dao.OrderDAO;
 import com.titan.service.OrderService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,6 +53,16 @@ public class OrderRestController {
                 })
             .toList();
     orderService.updateDishOrders(dishOrders);
+
+    Order order = orderService.getOrderByReference(reference);
+    OrderRest orderRest = orderRestMapper.toRest(order);
+    return ResponseEntity.ok().body(orderRest);
+  }
+
+  @PutMapping("/orders/{reference}/dishes/{dishId}")
+  public ResponseEntity<Object> updateDishOrderStatus(
+      @PathVariable String reference, @PathVariable Long dishId) {
+    orderService.updateDishOrderStatus(reference, dishId);
 
     Order order = orderService.getOrderByReference(reference);
     OrderRest orderRest = orderRestMapper.toRest(order);
