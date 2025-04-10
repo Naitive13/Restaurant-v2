@@ -99,4 +99,23 @@ public class DishDAO implements CrudDAO<Dish> {
       throw new RuntimeException(e);
     }
   }
+
+   public Dish getByName(String name) {
+    String query = "SELECT dish_id, dish_name, dish_price FROM dish WHERE dish_name = ?";
+
+    try (Connection connection = this.datasource.getConnection();
+        PreparedStatement st = connection.prepareStatement(query)) {
+      st.setString(1, name);
+      try (ResultSet rs = st.executeQuery()) {
+        if (rs.next()) {
+          return dishMapper.apply(rs);
+        } else {
+          throw new RuntimeException("dish was not found");
+        }
+      }
+
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
 }
