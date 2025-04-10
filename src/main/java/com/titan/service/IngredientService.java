@@ -23,15 +23,19 @@ public class IngredientService {
     return ingredients.stream()
         .filter(
             ingredient -> {
-                double unitPrice = ingredient.getActualPrice();
-                return unitPrice >= priceMinFilter && unitPrice <= priceMaxFilter;
+              double unitPrice = ingredient.getActualPrice();
+              return unitPrice >= priceMinFilter && unitPrice <= priceMaxFilter;
             })
         .toList();
   }
 
-  public List<Ingredient> getAllIngredients(int page, int pageSize){
-      validatePagination(page,pageSize);
-      return ingredientDAO.getAll(page,pageSize);
+  public List<Ingredient> getAllIngredients(int page, int pageSize) {
+    validatePagination(page, pageSize);
+    return ingredientDAO.getAll(page, pageSize);
+  }
+
+  public Ingredient getIngredientById(Long id) {
+    return ingredientDAO.getById(id);
   }
 
   private void validatePagination(int page, int pageSize) {
@@ -44,9 +48,10 @@ public class IngredientService {
   }
 
   private void validatePrice(Double priceMinFilter, Double priceMaxFilter) {
-      if (priceMinFilter == null || priceMaxFilter == null){
-          throw new ClientException("You must use priceMinFilter and priceMaxFilter together but not individually");
-      }
+    if (priceMinFilter == null || priceMaxFilter == null) {
+      throw new ClientException(
+          "You must use priceMinFilter and priceMaxFilter together but not individually");
+    }
     if (priceMinFilter < 0) {
       throw new ClientException("PriceMinFilter " + priceMinFilter + " is negative");
     }
