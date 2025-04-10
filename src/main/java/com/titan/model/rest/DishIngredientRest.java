@@ -10,5 +10,5 @@ public class DishIngredientRest {
     private Long id;
     private String name;
     private Double requiredQuantity;
-    private UnitType unitType;
+    private UnitType unit;
 }

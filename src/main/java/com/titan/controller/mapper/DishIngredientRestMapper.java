@@ -13,10 +13,10 @@ public class DishIngredientRestMapper implements BiMapper<DishIngredientRest, Di
   @Override
   public DishIngredientRest toRest(DishIngredient dishIngredient) {
     DishIngredientRest dishIngredientRest = new DishIngredientRest();
-    dishIngredientRest.setId(dishIngredient.getDishId());
+    dishIngredientRest.setId(dishIngredient.getIngredient().getIngredientId());
     dishIngredientRest.setName(dishIngredient.getIngredient().getIngredientName());
     dishIngredientRest.setRequiredQuantity(dishIngredient.getQuantity());
-    dishIngredientRest.setUnitType(dishIngredient.getIngredient().getUnit());
+    dishIngredientRest.setUnit(dishIngredient.getIngredient().getUnit());
 
     return dishIngredientRest;
   }
