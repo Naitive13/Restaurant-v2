@@ -15,7 +15,7 @@ public class IngredientRestMapper implements BiMapper<IngredientRest, Ingredient
   public IngredientRest toRest(Ingredient ingredient) {
     IngredientRest ingredientRest = new IngredientRest();
 
-    ingredientRest.setId(ingredientRest.getId());
+    ingredientRest.setId(ingredient.getIngredientId());
     ingredientRest.setName(ingredient.getIngredientName());
     ingredientRest.setActualPrice(ingredient.getActualPrice());
     ingredientRest.setAvailableQuantity(ingredient.getAvailableQuantity());
