@@ -4,7 +4,7 @@ info:
   description: Restaurant Management API - 2025 [J]
   version: 1.0.0
 servers:
-  - url: 'https://localhost:8080'
+  - url: 'http://localhost:8080'
 paths:
   /ingredients:
     get:
