@@ -1,8 +1,16 @@
 package com.titan.controller.endpoint;
 
+import com.titan.model.entities.ProcessingTime;
 import com.titan.model.entities.SoldDish;
+import com.titan.model.enums.DurationType;
+import com.titan.model.enums.ProcessingTimeType;
 import com.titan.service.DashboardService;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,13 +18,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
 @RestController
 @RequiredArgsConstructor
 public class DashboardRestController {
+  private static final Logger log = LoggerFactory.getLogger(DashboardRestController.class);
   private final DashboardService dashboardService;
 
   @GetMapping("/bestSales")
@@ -37,7 +42,24 @@ public class DashboardRestController {
   }
 
   @GetMapping("/dishes/{id}/processingTime")
-  public ResponseEntity<Object> getProcessingTime(@PathVariable Long id) {
-    return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+  public ResponseEntity<Object> getProcessingTime(
+      @PathVariable Long id,
+      @RequestParam(defaultValue = "SECOND", required = false) String durationType,
+      @RequestParam(defaultValue = "AVERAGE", required = false) String processingTimeType) {
+
+    try {
+      log.info(durationType);
+      log.info(processingTimeType);
+      ProcessingTime processingTime =
+          dashboardService.getProcessingTimeFor(
+              id,
+              ProcessingTimeType.valueOf(processingTimeType),
+              DurationType.valueOf(durationType));
+      return ResponseEntity.ok().body(processingTime);
+
+    } catch (Exception e) {
+      log.error(e.getMessage());
+      return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
   }
 }
