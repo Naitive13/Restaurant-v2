@@ -29,7 +29,7 @@ public class Order {
       OrderStatus status = new OrderStatus();
       status.setStatus(CREATED);
       status.setOrderReference(this.getReference());
-      status.setCreationDate(LocalDateTime.of(2025, 1, 1, 0, 0, 0));
+      status.setCreationDate(LocalDateTime.now());
       status.setId((long) status.hashCode());
 
       this.setStatusList(List.of(status));
@@ -47,7 +47,7 @@ public class Order {
       OrderStatus status = new OrderStatus();
       status.setStatus(CREATED);
       status.setOrderReference(this.getReference());
-      status.setCreationDate(LocalDateTime.of(2025, 1, 1, 0, 0, 0));
+      status.setCreationDate(LocalDateTime.now());
       status.setId((long) status.hashCode());
 
       List<OrderStatus> newStatusList = new ArrayList<>();
@@ -71,7 +71,7 @@ public class Order {
             OrderStatus status = new OrderStatus();
             status.setStatus(CONFIRMED);
             status.setOrderReference(this.getReference());
-            status.setCreationDate(LocalDateTime.of(2025, 1, 2, 0, 0, 0));
+            status.setCreationDate(LocalDateTime.now());
             status.setId((long) status.hashCode());
 
             List<OrderStatus> newStatusList = new ArrayList<>(this.getStatusList());
@@ -87,7 +87,7 @@ public class Order {
           OrderStatus status = new OrderStatus();
           status.setStatus(IN_PROGRESS);
           status.setOrderReference(this.getReference());
-          status.setCreationDate(LocalDateTime.of(2025, 1, 3, 0, 0, 0));
+          status.setCreationDate(LocalDateTime.now());
           status.setId((long) status.hashCode());
 
           List<OrderStatus> newStatusList = new ArrayList<>(this.getStatusList());
@@ -104,7 +104,7 @@ public class Order {
             OrderStatus status = new OrderStatus();
             status.setStatus(DONE);
             status.setOrderReference(this.getReference());
-            status.setCreationDate(LocalDateTime.of(2025, 1, 4, 0, 0, 0));
+            status.setCreationDate(LocalDateTime.now());
             status.setId((long) status.hashCode());
 
             List<OrderStatus> newStatusList = new ArrayList<>(this.getStatusList());
@@ -122,7 +122,7 @@ public class Order {
             OrderStatus status = new OrderStatus();
             status.setStatus(DELIVERED);
             status.setOrderReference(this.getReference());
-            status.setCreationDate(LocalDateTime.of(2025, 1, 5, 0, 0, 0));
+            status.setCreationDate(LocalDateTime.now());
             status.setId((long) status.hashCode());
 
             List<OrderStatus> newStatusList = new ArrayList<>(this.getStatusList());

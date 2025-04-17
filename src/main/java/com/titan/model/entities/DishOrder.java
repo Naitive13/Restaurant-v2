@@ -31,7 +31,7 @@ public class DishOrder {
       DishOrderStatus status = new DishOrderStatus();
       status.setStatus(CREATED);
       status.setDishOrderId(this.getId());
-      status.setCreationDate(LocalDateTime.of(2025, 1, 1, 0, 0, 0));
+      status.setCreationDate(LocalDateTime.now());
       status.setId((long) status.hashCode());
 
       this.setStatusList(List.of(status));
@@ -50,7 +50,7 @@ public class DishOrder {
       DishOrderStatus status = new DishOrderStatus();
       status.setStatus(CREATED);
       status.setDishOrderId(this.getId());
-      status.setCreationDate(LocalDateTime.of(2025, 1, 1, 0, 0, 0));
+      status.setCreationDate(LocalDateTime.now());
       status.setId((long) status.hashCode());
 
       List<DishOrderStatus> newStatusList = new ArrayList<>();
@@ -64,7 +64,7 @@ public class DishOrder {
             DishOrderStatus status = new DishOrderStatus();
             status.setStatus(CONFIRMED);
             status.setDishOrderId(this.getId());
-            status.setCreationDate(LocalDateTime.of(2025, 1, 2, 0, 0, 0));
+            status.setCreationDate(LocalDateTime.now());
             status.setId((long) status.hashCode());
 
             List<DishOrderStatus> newStatusList = new ArrayList<>(this.getStatusList());
@@ -80,7 +80,7 @@ public class DishOrder {
           DishOrderStatus status = new DishOrderStatus();
           status.setStatus(IN_PROGRESS);
           status.setDishOrderId(this.getId());
-          status.setCreationDate(LocalDateTime.of(2025, 1, 3, 0, 0, 0));
+          status.setCreationDate(LocalDateTime.now());
           status.setId((long) status.hashCode());
 
           List<DishOrderStatus> newStatusList = new ArrayList<>(this.getStatusList());
@@ -92,7 +92,7 @@ public class DishOrder {
           DishOrderStatus status = new DishOrderStatus();
           status.setStatus(DONE);
           status.setDishOrderId(this.getId());
-          status.setCreationDate(LocalDateTime.of(2025, 1, 4, 0, 0, 0));
+          status.setCreationDate(LocalDateTime.now());
           status.setId((long) status.hashCode());
 
           List<DishOrderStatus> newStatusList = new ArrayList<>(this.getStatusList());
@@ -107,7 +107,7 @@ public class DishOrder {
           DishOrderStatus status = new DishOrderStatus();
           status.setStatus(DELIVERED);
           status.setDishOrderId(this.getId());
-          status.setCreationDate(LocalDateTime.of(2025, 1, 5, 0, 0, 0));
+          status.setCreationDate(LocalDateTime.now());
           status.setId((long) status.hashCode());
 
           List<DishOrderStatus> newStatusList = new ArrayList<>(this.getStatusList());
