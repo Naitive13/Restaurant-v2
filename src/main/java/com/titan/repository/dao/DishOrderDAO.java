@@ -124,4 +124,26 @@ public class DishOrderDAO implements CrudDAO<DishOrder> {
       throw new RuntimeException(e);
     }
   }
+
+  public List<DishOrder> getByDishId(Long id) {
+    List<DishOrder> dishOrders = new ArrayList<>();
+    String query =
+            "SELECT dish_order_id, dish_id, order_reference, quantity "
+                    + "FROM dish_order WHERE dish_id = ?";
+
+    try (Connection connection = this.datasource.getConnection();
+         PreparedStatement st = connection.prepareStatement(query)) {
+      st.setLong(1, id);
+
+      try (ResultSet rs = st.executeQuery()) {
+        while (rs.next()) {
+          dishOrders.add(dishOrderMapper.apply(rs));
+        }
+      }
+      return dishOrders;
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
+
 }
