@@ -37,7 +37,7 @@ public class DashboardRestController {
       }
       return ResponseEntity.ok().body(body);
     } catch (Exception e) {
-      return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -59,7 +59,7 @@ public class DashboardRestController {
 
     } catch (Exception e) {
       log.error(e.getMessage());
-      return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
   }
 }
