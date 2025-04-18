@@ -10,6 +10,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class DishOrderRestWithStatusList {
+    private Long dishOrderId;
+    private String salesPoint;
     private Long dishId;
     private String dishName;
     private int quantity;
