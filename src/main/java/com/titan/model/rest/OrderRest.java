@@ -11,6 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 public class OrderRest {
     private String reference;
+    private double totalAmount;
     private StatusType status;
-    private List<DishOrderRest> dishOrder;
+    private List<DishOrderRest> dishes;
 }

@@ -16,7 +16,7 @@ public class OrderRestMapper implements BiMapper<OrderRest, Order> {
 
     orderRest.setReference(order.getReference());
     orderRest.setStatus(order.getActualStatus().getStatus());
-    orderRest.setDishOrder(
+    orderRest.setDishes(
         order.getDishOrders().stream().map(dishOrderRestMapper::toRest).toList());
 
     return orderRest;

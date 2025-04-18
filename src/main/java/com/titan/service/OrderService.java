@@ -35,4 +35,26 @@ public class OrderService {
             }
         });
     }
+    public Order createOrder(String reference) {
+        Order existingOrder;
+        try {
+            existingOrder = orderDAO.getByReference(reference);
+        } catch (RuntimeException e) {
+            existingOrder = null; // commande inexistante
+        }
+
+        if (existingOrder != null) {
+            throw new IllegalArgumentException("Order with reference '" + reference + "' already exists.");
+        }
+
+        Order newOrder = new Order();
+        newOrder.setReference(reference);
+        newOrder.setCreationDate(java.time.LocalDateTime.now());
+        newOrder.setDishOrders(List.of()); // vide à la création
+        newOrder.setStatusList(List.of()); // vide ou statuts initiaux à gérer si tu veux
+
+        return orderDAO.save(newOrder);
+    }
+
+
 }
