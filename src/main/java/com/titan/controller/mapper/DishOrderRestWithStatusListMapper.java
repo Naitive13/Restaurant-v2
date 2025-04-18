@@ -13,6 +13,7 @@ public class DishOrderRestWithStatusListMapper
   public DishOrderRestWithStatusList apply(DishOrder dishOrder) {
     DishOrderRestWithStatusList item = new DishOrderRestWithStatusList();
 
+    item.setSalesPoint("Analamahintsy");
     item.setDishOrderId(dishOrder.getId());
     item.setDishId(dishOrder.getDish().getDishId());
     item.setStatusList(dishOrder.getStatusList());

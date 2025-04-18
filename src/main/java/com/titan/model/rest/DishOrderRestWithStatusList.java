@@ -11,6 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 public class DishOrderRestWithStatusList {
     private Long dishOrderId;
+    private String salesPoint;
     private Long dishId;
     private String dishName;
     private int quantity;
