@@ -68,4 +68,17 @@ public class OrderRestController {
     OrderRest orderRest = orderRestMapper.toRest(order);
     return ResponseEntity.ok().body(orderRest);
   }
+
+    @PostMapping("/orders/{reference}")
+    public ResponseEntity<Object> createOrder(@PathVariable String reference) {
+        try {
+            Order order = orderService.createOrder(reference);
+            OrderRest orderRest = orderRestMapper.toRest(order);
+            return ResponseEntity.status(201).body(orderRest);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+
 }

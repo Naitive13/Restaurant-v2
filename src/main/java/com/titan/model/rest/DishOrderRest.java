@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class DishOrderRest {
+    private Long id;
     private String name;
     private int quantity;
     private StatusType status;

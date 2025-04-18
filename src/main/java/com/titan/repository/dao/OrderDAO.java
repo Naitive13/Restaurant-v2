@@ -102,4 +102,9 @@ public class OrderDAO implements CrudDAO<Order> {
       throw new RuntimeException(e);
     }
   }
+  public Order save(Order order) {
+    return saveAll(List.of(order)).stream().findFirst().orElseThrow(() ->
+            new RuntimeException("Failed to insert the order with reference: " + order.getReference()));
+  }
+
 }

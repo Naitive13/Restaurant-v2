@@ -12,7 +12,7 @@ public class DishOrderRestWithStatusListMapper
   @Override
   public DishOrderRestWithStatusList apply(DishOrder dishOrder) {
     DishOrderRestWithStatusList item = new DishOrderRestWithStatusList();
-
+    
     item.setSalesPoint("Analamahintsy");
     item.setDishOrderId(dishOrder.getId());
     item.setDishId(dishOrder.getDish().getDishId());
