@@ -1,10 +1,13 @@
 package com.titan.controller.endpoint;
 
 import com.titan.controller.mapper.DishIngredientRestMapper;
+import com.titan.controller.mapper.DishOrderRestWithStatusListMapper;
 import com.titan.controller.mapper.DishRestMapper;
 import com.titan.model.entities.Dish;
 import com.titan.model.entities.DishIngredient;
+import com.titan.model.entities.DishOrder;
 import com.titan.model.rest.DishIngredientRest;
+import com.titan.model.rest.DishOrderRestWithStatusList;
 import com.titan.model.rest.DishRest;
 import com.titan.service.DishService;
 import java.util.List;
@@ -18,6 +21,7 @@ public class DishRestController {
   private final DishService dishService;
   private final DishRestMapper dishRestMapper;
   private final DishIngredientRestMapper dishIngredientRestMapper;
+  private final DishOrderRestWithStatusListMapper dishOrderRestWithStatusListMapper;
 
   @GetMapping("/dishes")
   public ResponseEntity<Object> getAllDishes(@RequestParam int page, @RequestParam int pageSize) {
@@ -25,6 +29,13 @@ public class DishRestController {
     List<DishRest> dishRests = dishes.stream().map(dishRestMapper::toRest).toList();
     return ResponseEntity.ok().body(dishRests);
   }
+
+@GetMapping("/dishOrders")
+public ResponseEntity<Object> getAllDishOrders(@RequestParam int page, @RequestParam int pageSize) {
+        List<DishOrder> dishes = dishService.getAllDishOrder(page, pageSize);
+        List<DishOrderRestWithStatusList> dishRest = dishes.stream().map(dishOrderRestWithStatusListMapper).toList();
+        return ResponseEntity.ok().body(dishRest);
+    }
 
   @PutMapping("/dishes/{id}/ingredients")
   public ResponseEntity<Object> updateDishIngredients(
