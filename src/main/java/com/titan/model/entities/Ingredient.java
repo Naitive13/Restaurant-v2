@@ -22,9 +22,10 @@ public class Ingredient {
   private LocalDateTime lastModified;
 
   public double getActualPrice() {
+    Price price = new Price();
+    price.setValue(0);
     return this.getIngredientPrices().stream()
-        .max(Comparator.comparing(Price::getDate, naturalOrder()))
-        .get()
+        .max(Comparator.comparing(Price::getDate, naturalOrder())).orElse(price)
         .getValue();
   }
 
