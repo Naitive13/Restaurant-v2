@@ -84,8 +84,8 @@ public class DishIngredientDAO implements CrudDAO<DishIngredient> {
               st.setLong(3, dishIngredient.getIngredient().getIngredientId());
               st.setDouble(4, dishIngredient.getQuantity());
 
+              ingredientDAO.saveAll(List.of(dishIngredient.getIngredient()));
               try (ResultSet rs = st.executeQuery()) {
-                ingredientDAO.saveAll(List.of(dishIngredient.getIngredient()));
                 if (rs.next()) {
                   dishIngredients.add(dishIngredientMapper.apply(rs));
                 }
