@@ -18,7 +18,7 @@ public class DishOrderRestWithStatusListMapper
     item.setDishId(dishOrder.getDish().getDishId());
     item.setStatusList(dishOrder.getStatusList());
     item.setDishName(dishOrder.getDish().getDishName());
-    item.setActualStatus(dishOrder.getActualStatus());
+    item.setActualStatus(dishOrder.getActualStatus().getStatus());
     item.setQuantity(dishOrder.getQuantity());
     item.setTotalAmount(dishOrder.getTotalAmount());
 
